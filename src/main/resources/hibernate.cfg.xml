@@ -12,8 +12,9 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-<!--        <property name="hibernate.format_sql">true</property>-->
 
-        <mapping class="ru.job4j.cars.model.User" />
+        <mapping class="ru.job4j.cars.model.User"/>
+        <mapping class="ru.job4j.cars.model.Post"/>
+        <mapping class="ru.job4j.cars.model.PriceHistory"/>
     </session-factory>
 </hibernate-configuration>

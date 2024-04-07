@@ -7,21 +7,32 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "auto_user")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "history_owner")
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class HistoryOwner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Include
     private int id;
 
-    private String login;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
-    private String password;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "car_id")
+    private Car car;
+
+    @Column(name = "start_at")
+    private LocalDateTime startAt;
+
+    @Column(name = "end_at")
+    private LocalDateTime endAt;
 }

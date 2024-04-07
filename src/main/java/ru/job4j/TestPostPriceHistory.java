@@ -12,7 +12,7 @@ import ru.job4j.cars.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TestManyToMany {
+public class TestPostPriceHistory {
 
     public static void main(String[] args) throws Exception {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -20,7 +20,7 @@ public class TestManyToMany {
         try {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 
-            var user = new User(0, "user11111", "password");
+            var user = new User(0, "user111111", "password");
             create(user, sf);
             var priceHistories = List.of(
                     new PriceHistory(0, 15600, 15300, LocalDateTime.now()),
@@ -92,4 +92,3 @@ public class TestManyToMany {
         return result;
     }
 }
-

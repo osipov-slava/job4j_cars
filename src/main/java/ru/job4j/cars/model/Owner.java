@@ -1,27 +1,26 @@
 package ru.job4j.cars.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "auto_user")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
+@Table(name = "owner")
+public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Include
     private int id;
 
-    private String login;
+    private String name;
 
-    private String password;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }

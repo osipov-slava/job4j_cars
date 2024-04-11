@@ -1,10 +1,8 @@
 package ru.job4j.cars.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,8 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "auto_post")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@AllArgsConstructor
-@NoArgsConstructor
 public class Post {
 
     @Id
@@ -32,13 +28,13 @@ public class Post {
     @JoinColumn(name = "auto_user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "car_id")
     private Car car;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
-    private List<PriceHistory> priceHistories = new ArrayList<>();
+    private List<File> files = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -46,5 +42,6 @@ public class Post {
             joinColumns = {@JoinColumn(name = "post_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private List<User> participates = new ArrayList<>();
+    private List<User> subscribers = new ArrayList<>();
+
 }

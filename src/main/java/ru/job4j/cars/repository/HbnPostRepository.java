@@ -2,9 +2,14 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +21,8 @@ public class HbnPostRepository implements PostRepository {
 
     private final CrudRepository crudRepository;
 
+    private final SessionFactory sf;
+
     public Post create(Post post) {
         crudRepository.run(session -> session.persist(post));
         return post;
@@ -25,20 +32,88 @@ public class HbnPostRepository implements PostRepository {
         return crudRepository.query("""
                 select distinct p
                 from Post p
-                join fetch p.priceHistory
-                join fetch p.user
-                order by id asc""", Post.class);
+                left join fetch p.user
+                left join fetch p.car
+                left join fetch p.files
+                order by p.id asc""", Post.class);
     }
 
     public Optional<Post> findById(int postId) {
         return crudRepository.optional("""
                         select distinct p
                         from Post p
-                        join fetch p.priceHistory
-                        join fetch p.user
-                        where id = :fId""", Post.class,
-                Map.of("fId", postId)
-        );
+                        left join fetch p.user
+                        left join fetch p.car
+                        left join fetch p.files
+                        where p.id = :fId""", Post.class,
+                Map.of("fId", postId));
+    }
+
+    public List<Post> findPostsWithSubscribersByPosts(List<Post> posts) {
+        Session session = sf.openSession();
+        Transaction transaction = null;
+        List<Post> postList = Collections.emptyList();
+        try {
+            transaction = session.beginTransaction();
+            postList = session.createQuery("""
+                            select distinct p
+                            from Post p
+                            left join fetch p.user
+                            left join fetch p.car
+                            left join fetch p.files
+                            where p in (:posts)""", Post.class)
+                    .setParameter("posts", posts)
+                    .getResultList();
+            postList = session.createQuery("""
+                            select distinct p
+                            from Post p
+                            left join fetch p.subscribers
+                            where p in (:posts)""", Post.class)
+                    .setParameter("posts", postList)
+                    .getResultList();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            session.close();
+        }
+        return postList;
+    }
+
+    public List<Post> findAllForLastDay() {
+        var previousDay = LocalDateTime.now().minusDays(1);
+        return crudRepository.query("""
+                        select distinct p
+                        from Post p
+                        left join fetch p.user
+                        left join fetch p.car
+                        left join fetch p.files
+                        where p.created > :previous""", Post.class,
+                Map.of("previous", previousDay));
+    }
+
+    public List<Post> findAllWithFile() {
+        return crudRepository.query("""
+                select distinct p
+                from Post p
+                left join fetch p.user
+                left join fetch p.car
+                left join fetch p.files
+                where p.files is not empty""", Post.class);
+    }
+
+    public List<Post> findAllCarModelLike(String key) {
+        return crudRepository.query("""
+                        select distinct p
+                        from Post p
+                        left join fetch p.user
+                        left join fetch p.car
+                        left join fetch p.files
+                        where p.car.name like :key""", Post.class,
+                Map.of("key", "%" + key + "%"));
     }
 
     public boolean update(Post post) {

@@ -13,6 +13,14 @@ public interface PostRepository {
 
     Optional<Post> findById(int postId);
 
+    List<Post> findPostsWithSubscribersByPosts(List<Post> posts);
+
+    List<Post> findAllForLastDay();
+
+    List<Post> findAllWithFile();
+
+    List<Post> findAllCarModelLike(String key);
+
     boolean update(Post post);
 
     boolean delete(int postId);

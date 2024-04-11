@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,4 +25,6 @@ public class Owner {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "owner")
+    private List<HistoryOwner> historyOwners = new ArrayList<>();
 }

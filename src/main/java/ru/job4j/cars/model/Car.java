@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,8 +21,15 @@ public class Car {
 
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "engine_id", foreignKey = @ForeignKey(name = "ENGINE_ID_FK"))
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "engine_id")
     private Engine engine;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
+    @OneToMany(mappedBy = "car")
+    private List<HistoryOwner> historyOwners = new ArrayList<>();
 
 }

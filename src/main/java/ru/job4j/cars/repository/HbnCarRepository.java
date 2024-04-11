@@ -25,6 +25,8 @@ public class HbnCarRepository implements CarRepository {
         return crudRepository.query("""
                 from Car c
                 join fetch c.engine
+                join fetch c.owner
+                left join fetch c.historyOwners
                 order by c.id asc""", Car.class);
     }
 
@@ -32,6 +34,8 @@ public class HbnCarRepository implements CarRepository {
         return crudRepository.optional("""
                         from Car c
                         join fetch c.engine
+                        join fetch c.owner
+                        left join fetch c.historyOwners
                         where c.id = :fId""", Car.class,
                 Map.of("fId", carId)
         );

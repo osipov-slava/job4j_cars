@@ -22,12 +22,17 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
     }
 
     public List<PriceHistory> findAllOrderById() {
-        return crudRepository.query("from PriceHistory order by id asc", PriceHistory.class);
+        return crudRepository.query("""
+                from PriceHistory ph
+                join fetch ph.post
+                order by ph.id asc""", PriceHistory.class);
     }
 
     public Optional<PriceHistory> findById(int priceHistoryId) {
-        return crudRepository.optional(
-                "from PriceHistory where id = :fId", PriceHistory.class,
+        return crudRepository.optional("""
+                from PriceHistory ph
+                join fetch ph.post
+                where ph.id = :fId""", PriceHistory.class,
                 Map.of("fId", priceHistoryId)
         );
     }

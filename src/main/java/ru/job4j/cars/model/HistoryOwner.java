@@ -1,10 +1,8 @@
 package ru.job4j.cars.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,8 +11,6 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "history_owner")
-@AllArgsConstructor
-@NoArgsConstructor
 public class HistoryOwner {
 
     @Id
@@ -22,11 +18,11 @@ public class HistoryOwner {
     @Include
     private int id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
 
@@ -35,4 +31,5 @@ public class HistoryOwner {
 
     @Column(name = "end_at")
     private LocalDateTime endAt;
+
 }

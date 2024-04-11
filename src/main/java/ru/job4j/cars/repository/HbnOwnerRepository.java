@@ -24,12 +24,16 @@ public class HbnOwnerRepository implements OwnerRepository {
     public List<Owner> findAllOrderById() {
         return crudRepository.query("""
                 from Owner o
+                join fetch o.user
+                left join fetch o.historyOwners
                 order by o.id asc""", Owner.class);
     }
 
     public Optional<Owner> findById(int ownerId) {
         return crudRepository.optional("""
                         from Owner o
+                        join fetch o.user
+                        left join fetch o.historyOwners
                         where o.id = :fId""", Owner.class,
                 Map.of("fId", ownerId)
         );

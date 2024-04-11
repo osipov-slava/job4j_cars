@@ -1,24 +1,28 @@
 package ru.job4j.cars.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.EqualsAndHashCode.Include;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "auto_user")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User {
+@Table(name = "file")
+@AllArgsConstructor
+@NoArgsConstructor
+public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Include
     private int id;
 
-    private String login;
+    private String path;
 
-    private String password;
+    private String name;
 
 }

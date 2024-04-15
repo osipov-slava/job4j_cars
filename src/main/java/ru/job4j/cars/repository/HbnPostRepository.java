@@ -118,8 +118,11 @@ public class HbnPostRepository implements PostRepository {
 
     public boolean update(Post post) {
         try {
-            crudRepository.run(session -> session.merge(post));
-            return true;
+            var result = crudRepository.run(
+                    "UPDATE Post SET description = :description WHERE id = :id",
+                    Map.of("id", post.getId(),
+                            "description", post.getDescription()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

@@ -26,16 +26,16 @@ public class HbnEngineRepository implements EngineRepository {
     }
 
     public Optional<Engine> findById(int engineId) {
-        return crudRepository.optional(
-                "from Engine where id = :fId", Engine.class,
-                Map.of("fId", engineId)
-        );
+        return crudRepository.optional("from Engine where id = :fId", Engine.class,
+                Map.of("fId", engineId));
     }
 
     public boolean update(Engine engine) {
         try {
-            crudRepository.run(session -> session.merge(engine));
-            return true;
+            var result = crudRepository.run("UPDATE Engine SET name = :name WHERE id = :id",
+                    Map.of("id", engine.getId(),
+                            "name", engine.getName()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -44,10 +44,8 @@ public class HbnEngineRepository implements EngineRepository {
 
     public boolean delete(int engineId) {
         try {
-            var result = crudRepository.run(
-                    "delete from Engine where id = :fId",
-                    Map.of("fId", engineId)
-            );
+            var result = crudRepository.run("delete from Engine where id = :fId",
+                    Map.of("fId", engineId));
             return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());

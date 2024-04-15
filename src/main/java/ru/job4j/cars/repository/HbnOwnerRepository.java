@@ -41,8 +41,11 @@ public class HbnOwnerRepository implements OwnerRepository {
 
     public boolean update(Owner owner) {
         try {
-            crudRepository.run(session -> session.merge(owner));
-            return true;
+            var result = crudRepository.run("UPDATE Owner SET name = :name, user = :user WHERE id = :id",
+                    Map.of("id", owner.getId(),
+                            "name", owner.getName(),
+                            "user", owner.getUser()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

@@ -81,8 +81,14 @@ public class HbnUserRepository implements UserRepository {
      */
     public boolean update(User user) {
         try {
-            crudRepository.run(session -> session.merge(user));
-            return true;
+            var result = crudRepository.run("""
+                            UPDATE User
+                            SET login = :login, password = :password
+                            WHERE id = :id""",
+                    Map.of("id", user.getId(),
+                            "login", user.getLogin(),
+                            "password", user.getPassword()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

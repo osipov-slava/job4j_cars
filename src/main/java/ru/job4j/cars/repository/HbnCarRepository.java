@@ -43,8 +43,15 @@ public class HbnCarRepository implements CarRepository {
 
     public boolean update(Car car) {
         try {
-            crudRepository.run(session -> session.merge(car));
-            return true;
+            var result = crudRepository.run("""
+                            UPDATE Car c
+                            SET c.name = :name, c.engine = :engine, c.owner = :owner
+                            WHERE id = :id""",
+                    Map.of("id", car.getId(),
+                            "name", car.getName(),
+                            "engine", car.getEngine(),
+                            "owner", car.getOwner()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

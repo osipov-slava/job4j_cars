@@ -41,8 +41,16 @@ public class HbnHistoryOwnerRepository implements HistoryOwnerRepository {
 
     public boolean update(HistoryOwner historyOwner) {
         try {
-            crudRepository.run(session -> session.merge(historyOwner));
-            return true;
+            var result = crudRepository.run("""
+                            UPDATE HistoryOwner
+                            SET startAt = :startAt, endAt = :endAt, car = :car, owner = :owner
+                            WHERE id = :id""",
+                    Map.of("id", historyOwner.getId(),
+                            "startAt", historyOwner.getStartAt(),
+                            "endAt", historyOwner.getEndAt(),
+                            "car", historyOwner.getCar(),
+                            "owner", historyOwner.getOwner()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

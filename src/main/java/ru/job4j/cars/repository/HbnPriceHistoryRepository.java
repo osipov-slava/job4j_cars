@@ -39,8 +39,12 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
 
     public boolean update(PriceHistory priceHistory) {
         try {
-            crudRepository.run(session -> session.merge(priceHistory));
-            return true;
+            var result = crudRepository.run(
+                    "UPDATE PriceHistory SET before = :before, after = :after WHERE id = :id",
+                    Map.of("id", priceHistory.getId(),
+                            "before", priceHistory.getBefore(),
+                            "after", priceHistory.getAfter()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

@@ -37,8 +37,11 @@ public class HbnFileRepository implements FileRepository {
 
     public boolean update(File file) {
         try {
-            crudRepository.run(session -> session.merge(file));
-            return true;
+            var result = crudRepository.run("UPDATE File SET name = :name, path = :path WHERE id = :id",
+                    Map.of("id", file.getId(),
+                            "name", file.getName(),
+                            "path", file.getPath()));
+            return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

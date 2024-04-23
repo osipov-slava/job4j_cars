@@ -29,6 +29,7 @@ public class HbnUserRepositoryTest {
         User user = new User();
         user.setLogin("user1");
         user.setPassword("password1");
+        user.setEmail("some@gmail.com");
         userRepository.create(user);
         return user;
     }
@@ -37,6 +38,7 @@ public class HbnUserRepositoryTest {
         User user = new User();
         user.setLogin("user2");
         user.setPassword("password2");
+        user.setEmail("other@gmail.com");
         userRepository.create(user);
         return user;
     }

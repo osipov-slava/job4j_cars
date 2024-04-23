@@ -33,7 +33,7 @@ public class HbnUserRepository implements UserRepository {
      * @return список пользователей.
      */
     public List<User> findAllOrderById() {
-        return crudRepository.query("from User order by id asc", User.class);
+        return crudRepository.query("FROM User ORDER BY id ASC", User.class);
     }
 
     /**
@@ -43,8 +43,27 @@ public class HbnUserRepository implements UserRepository {
      */
     public Optional<User> findById(int userId) {
         return crudRepository.optional(
-                "from User where id = :fId", User.class,
-                Map.of("fId", userId)
+                "FROM User WHERE id = :id", User.class,
+                Map.of("id", userId)
+        );
+    }
+
+    /**
+     * Find user by email and password.
+     *
+     * @param email    email.
+     * @param password password.
+     * @return Optional of user.
+     */
+    @Override
+    public Optional<User> findByEmailAndPassword(String email, String password) {
+        return crudRepository.optional("""
+                FROM User u
+                WHERE u.email = :email
+                AND u.password = :password
+                """, User.class,
+                Map.of("email", email,
+                        "password", password)
         );
     }
 
@@ -56,8 +75,8 @@ public class HbnUserRepository implements UserRepository {
      */
     public List<User> findByLikeLogin(String key) {
         return crudRepository.query(
-                "from User where login like :fKey", User.class,
-                Map.of("fKey", "%" + key + "%")
+                "FROM User WHERE login LIKE :key", User.class,
+                Map.of("key", "%" + key + "%")
         );
     }
 
@@ -69,8 +88,8 @@ public class HbnUserRepository implements UserRepository {
      */
     public Optional<User> findByLogin(String login) {
         return crudRepository.optional(
-                "from User where login = :fLogin", User.class,
-                Map.of("fLogin", login)
+                "FROM User WHERE login = :login", User.class,
+                Map.of("login", login)
         );
     }
 
@@ -83,11 +102,12 @@ public class HbnUserRepository implements UserRepository {
         try {
             var result = crudRepository.run("""
                             UPDATE User
-                            SET login = :login, password = :password
+                            SET login = :login, password = :password, email = :email
                             WHERE id = :id""",
                     Map.of("id", user.getId(),
                             "login", user.getLogin(),
-                            "password", user.getPassword()));
+                            "password", user.getPassword(),
+                            "email", user.getEmail()));
             return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -103,8 +123,8 @@ public class HbnUserRepository implements UserRepository {
     public boolean delete(int userId) {
         try {
             var result = crudRepository.run(
-                    "delete from User where id = :fId",
-                    Map.of("fId", userId)
+                    "DELETE FROM User WHERE id = :id",
+                    Map.of("id", userId)
             );
             return result > 0;
         } catch (Exception e) {

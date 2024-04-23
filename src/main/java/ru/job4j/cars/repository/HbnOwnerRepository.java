@@ -39,6 +39,14 @@ public class HbnOwnerRepository implements OwnerRepository {
         );
     }
 
+    public Optional<Owner> findByUserId(int userId) {
+        return crudRepository.optional("""
+                        from Owner o
+                        where o.user.id = :userId""", Owner.class,
+                Map.of("userId", userId)
+        );
+    }
+
     public boolean update(Owner owner) {
         try {
             var result = crudRepository.run("UPDATE Owner SET name = :name, user = :user WHERE id = :id",

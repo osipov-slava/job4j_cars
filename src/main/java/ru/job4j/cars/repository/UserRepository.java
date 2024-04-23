@@ -13,6 +13,8 @@ public interface UserRepository {
 
     Optional<User> findById(int userId);
 
+    Optional<User> findByEmailAndPassword(String email, String password);
+
     boolean update(User user);
 
     boolean delete(int userId);

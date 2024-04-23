@@ -13,6 +13,8 @@ public interface OwnerRepository {
 
     Optional<Owner> findById(int ownerId);
 
+    Optional<Owner> findByUserId(int userId);
+
     boolean update(Owner owner);
 
     boolean delete(int ownerId);

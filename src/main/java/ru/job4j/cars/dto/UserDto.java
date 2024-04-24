@@ -13,6 +13,8 @@ public class UserDto {
 
     private String password;
 
+    private int ownerId;
+
     private String name;
 
 }

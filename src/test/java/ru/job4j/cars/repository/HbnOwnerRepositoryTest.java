@@ -37,6 +37,7 @@ public class HbnOwnerRepositoryTest {
         var user = new User();
         user.setLogin("user");
         user.setPassword("password");
+        user.setEmail("some@gmail.com");
         userRepository.create(user);
         return user;
     }

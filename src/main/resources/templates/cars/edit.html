@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <title th:text="${@environment.getProperty('app.title')}"></title>
+</head>
+
+<body>
+<div class="container-fluid p-0">
+    <header th:insert="blocks/header :: header"></header>
+    <div class="container mt-4">
+
+        <div class="row">
+            <div class="col-8">
+                <h4>Edit Task</h4>
+                <div>Change fields what you need</div>
+                <form class="mt-3" method="post" th:action="@{/cars/update}" th:object="${carDto}">
+                    <input name="id" th:field="*{id}" type="hidden">
+                    <input name="engineId" th:field="*{engineId}" type="hidden">
+                    <input name="ownerId" th:field="*{ownerId}" type="hidden">
+
+                    <div class="mb-3">
+                        <label class="form-label" for="name"><b>Title</b></label>
+                        <input class="form-control" id="name" name="name"
+                               placeholder="Car Model" required
+                               th:value="${carDto.name}" type="text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="engineName"><b>Description</b></label>
+                        <input class="form-control" id="engineName" name="engineName"
+                               placeholder="Engine" required
+                               th:value="${carDto.engineName}" type="text">
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="col-6"></div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/cars}">Cancel</a></div>
+                                <div class="col-6">
+                                    <button class="btn btn-primary w-100" type="submit">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="blocks/footer :: footer"></footer>
+</div>
+</body>
+</html>

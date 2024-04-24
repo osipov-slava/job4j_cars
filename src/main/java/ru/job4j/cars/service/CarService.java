@@ -1,22 +1,24 @@
 package ru.job4j.cars.service;
 
 
-import ru.job4j.cars.model.Car;
-import ru.job4j.cars.model.User;
+import ru.job4j.cars.dto.CarDto;
+import ru.job4j.cars.dto.UserDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CarService {
 
-    Car create(Car car, User user, List<Integer> categoryIds);
+    CarDto create(CarDto carDto);
 
-    boolean update(int id, Car car, List<Integer> categoryIds);
+    Optional<CarDto> findById(int id);
 
-    boolean deleteById(int id, User user);
+    List<CarDto> findAll();
 
-    Optional<Car> findById(int id, User user);
+    List<CarDto> findAllByUser(UserDto userDto);
 
-    List<Car> findAll(User user);
+    boolean update(CarDto carDto, UserDto userDto);
+
+    boolean deleteById(int id, UserDto userDto);
 
 }

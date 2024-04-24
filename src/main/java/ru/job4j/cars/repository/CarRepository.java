@@ -9,11 +9,13 @@ public interface CarRepository {
 
     Car create(Car car);
 
-    List<Car> findAllOrderById();
+    List<Car> findAll();
+
+    List<Car> findAllByOwnerId(int ownerId);
 
     Optional<Car> findById(int carId);
 
     boolean update(Car car);
 
-    boolean delete(int carId);
+    boolean delete(int carId, int ownerId);
 }

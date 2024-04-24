@@ -28,9 +28,9 @@ public class HbnCarRepositoryTest {
 
     @AfterEach
     public void clearTables() {
-        var cars = carRepository.findAllOrderById();
+        var cars = carRepository.findAll();
         for (var car : cars) {
-            carRepository.delete(car.getId());
+            carRepository.delete(car.getId(), car.getOwner().getId());
         }
         var owners = ownerRepository.findAllOrderById();
         for (var owner : owners) {
@@ -46,6 +46,7 @@ public class HbnCarRepositoryTest {
         var user = new User();
         user.setLogin("user");
         user.setPassword("password");
+        user.setEmail("some@gmail.com");
         userRepository.create(user);
 
         var owner = new Owner();
@@ -97,7 +98,7 @@ public class HbnCarRepositoryTest {
     public void whenDeleteCarThenReturnTrue() {
         Car car = initCar();
 
-        boolean result = carRepository.delete(car.getId());
+        boolean result = carRepository.delete(car.getId(), car.getOwner().getId());
         assertThat(result).isTrue();
 
         var optional = carRepository.findById(car.getId());
@@ -106,7 +107,7 @@ public class HbnCarRepositoryTest {
 
     @Test
     public void whenDeleteUnknownCarThenReturnFalse() {
-        boolean result = carRepository.delete(1);
+        boolean result = carRepository.delete(1, 1);
         assertThat(result).isFalse();
     }
 
@@ -123,7 +124,7 @@ public class HbnCarRepositoryTest {
         carRepository.create(car2);
 
         var expected = Arrays.asList(car, car2);
-        List<Car> actual = carRepository.findAllOrderById();
+        List<Car> actual = carRepository.findAll();
         assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
     }
 

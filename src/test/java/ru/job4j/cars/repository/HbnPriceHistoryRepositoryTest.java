@@ -40,9 +40,9 @@ public class HbnPriceHistoryRepositoryTest {
         for (var post : posts) {
             postRepository.delete(post.getId());
         }
-        var cars = carRepository.findAllOrderById();
+        var cars = carRepository.findAll();
         for (var car : cars) {
-            carRepository.delete(car.getId());
+            carRepository.delete(car.getId(), car.getOwner().getId());
         }
         var owners = ownerRepository.findAllOrderById();
         for (var owner : owners) {
@@ -58,6 +58,7 @@ public class HbnPriceHistoryRepositoryTest {
         var user = new User();
         user.setLogin("user");
         user.setPassword("password");
+        user.setEmail("some@gmail.com");
         userRepository.create(user);
 
         var owner = new Owner();

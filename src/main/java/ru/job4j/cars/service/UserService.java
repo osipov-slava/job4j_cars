@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    UserDto save(UserDto userDto);
+    UserDto create(UserDto userDto);
 
     Optional<UserDto> findByEmailAndPassword(String email, String password);
 }

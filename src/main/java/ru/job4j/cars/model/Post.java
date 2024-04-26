@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode.Include;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,8 @@ public class Post {
 
     private String description;
 
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"))
+            .truncatedTo(ChronoUnit.SECONDS);
 
     @ManyToOne
     @JoinColumn(name = "auto_user_id")

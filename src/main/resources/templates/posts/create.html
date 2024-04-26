@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <title th:text="${@environment.getProperty('app.title')}"></title>
+</head>
+
+<body>
+<div class="container-fluid p-0">
+    <header th:insert="blocks/header :: header"></header>
+    <div class="container mt-4">
+
+        <div class="row">
+            <div class="col-8">
+                <h4>Add New Post</h4>
+                <div>Fill fields for the new post</div>
+                <form class="mt-3" method="post" th:action="@{/posts/create}" th:object="${postDto}">
+                    <input name="userId" th:value="${userDto.id}" type="hidden">
+
+                    <div class="mb-3">
+                        <label for="carId"><b>Car</b></label>
+                        <select class="form-control" id="carId" name="carId">
+                            <option th:each="carDto : ${carDtos}" th:value="${carDto.id}" th:text="${carDto.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="description"><b>Description</b></label>
+                        <textarea class="form-control" id="description" name="description" placeholder="Description..."
+                                  rows="10"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="price"><b>Price</b></label>
+                        <input class="form-control" id="price" name="price" placeholder="price in $"
+                               step="1" min="0" required type="number">
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="col-6"></div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-primary w-100" type="submit">Add</button>
+                                </div>
+                                <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/cars}">Cancel</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="blocks/footer :: footer"></footer>
+</div>
+</body>
+</html>

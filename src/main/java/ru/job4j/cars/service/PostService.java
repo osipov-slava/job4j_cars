@@ -1,5 +1,7 @@
 package ru.job4j.cars.service;
 
+import ru.job4j.cars.dto.CarDto;
+import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.dto.UserDto;
 
@@ -8,7 +10,7 @@ import java.util.Optional;
 
 public interface PostService {
 
-    Post create(Post task, UserDto userDto);
+    PostDto create(PostDto task, UserDto userDto, CarDto carDto);
 
 //    boolean update(int id, Post task, List<Integer> categoryIds);
 
@@ -16,9 +18,9 @@ public interface PostService {
 
 //    boolean deleteById(int id, UserDto userDto);
 
-    Optional<Post> findById(int id);
+//    Optional<PostDto> findById(int id);
 
-    List<Post> findAll();
+    List<PostDto> findAll();
 
 //    List<Post> findFinished(UserDto userDto);
 //

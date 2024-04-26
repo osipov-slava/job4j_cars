@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/code.jquery.com_jquery-3.7.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <title th:text="${@environment.getProperty('app.title')}"></title>
+</head>
+
+<body>
+<div class="container-fluid p-0">
+    <header th:insert="blocks/header :: header"></header>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-9">
+                <h4 th:text="${carDto.name}"></h4>
+                <p th:text="${carDto.engineName}"></p>
+                <p th:text="${carDto.ownerName}"></p>
+                <p/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2"><a class="btn btn-secondary w-100"
+                                  th:href="@{/cars/update/{id}(id=${carDto.id})}">Edit</a></div>
+<!--            <div class="col-2"><a class="btn btn-success w-100" th:href="@{/tasks/done/{id}(id=${task.id})}">Done</a>-->
+<!--            </div>-->
+            <div class="col-2"><a class="btn btn-danger w-100" th:href="@{/cars/delete/{id}(id=${carDto.id})}">Delete</a>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="blocks/footer :: footer"></footer>
+</div>
+</body>
+</html>

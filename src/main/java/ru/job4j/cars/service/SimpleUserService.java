@@ -22,7 +22,7 @@ public class SimpleUserService implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public UserDto save(UserDto userDto) {
+    public UserDto create(UserDto userDto) {
         var user = userMapper.getEntityFromDto(userDto);
         userRepository.create(user);
         userDto.setId(user.getId());

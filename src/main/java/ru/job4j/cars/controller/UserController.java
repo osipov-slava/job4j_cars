@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping("/register")
     public String register(@ModelAttribute UserDto userDto, Model model) {
         userDto.setId(0);
-        if (userService.save(userDto).getId() == 0) {
+        if (userService.create(userDto).getId() == 0) {
             model.addAttribute("error", "User with this email is exist");
             return "users/register";
         }

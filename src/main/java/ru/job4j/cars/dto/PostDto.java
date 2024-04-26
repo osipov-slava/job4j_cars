@@ -11,6 +11,14 @@ public class PostDto {
 
     private String created;
 
-    private String userName;
+    private int carId;
+
+    private String carName;
+
+    private int userId;
+
+    private String ownerName;
+
+    private int price;
 
 }

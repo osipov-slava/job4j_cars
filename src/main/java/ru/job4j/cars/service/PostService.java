@@ -12,15 +12,15 @@ public interface PostService {
 
     PostDto create(PostDto task, UserDto userDto, CarDto carDto);
 
-//    boolean update(int id, Post task, List<Integer> categoryIds);
+    Optional<PostDto> findById(int id);
+
+    List<PostDto> findAll();
+
+    boolean update(PostDto postDto, UserDto userDto);
 
 //    boolean done(int id, UserDto userDto);
 
-//    boolean deleteById(int id, UserDto userDto);
-
-//    Optional<PostDto> findById(int id);
-
-    List<PostDto> findAll();
+    boolean deleteById(int id, UserDto userDto);
 
 //    List<Post> findFinished(UserDto userDto);
 //

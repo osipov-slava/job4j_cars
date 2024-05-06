@@ -32,7 +32,7 @@
                 <tbody>
                     <tr th:each="postDto: ${postDtos}">
                         <td th:text="${postDto.id}"/>
-                        <td><a th:text="${postDto.carName}" th:href="@{/cars/{id}(id=${postDto.id})}" class="text-dark"></a></td>
+                        <td><a th:text="${postDto.carName}" th:href="@{/posts/{id}(id=${postDto.id})}" class="text-dark"></a></td>
                         <td th:text="${postDto.description}"/>
                         <td th:text="${postDto.price}"/>
                         <td th:text="${postDto.ownerName}"/>

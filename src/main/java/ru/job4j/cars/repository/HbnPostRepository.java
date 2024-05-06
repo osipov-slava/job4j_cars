@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -116,12 +117,15 @@ public class HbnPostRepository implements PostRepository {
                 Map.of("key", "%" + key + "%"));
     }
 
-    public boolean update(Post post) {
+    public boolean update(Post post, User user) {
         try {
-            var result = crudRepository.run(
-                    "UPDATE Post SET description = :description WHERE id = :id",
+            var result = crudRepository.run("""
+                    UPDATE Post
+                    SET description = :description
+                    WHERE id = :id AND user = :user""",
                     Map.of("id", post.getId(),
-                            "description", post.getDescription()));
+                            "description", post.getDescription(),
+                            "user", user));
             return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -129,11 +133,13 @@ public class HbnPostRepository implements PostRepository {
         return false;
     }
 
-    public boolean delete(int postId) {
+    public boolean delete(int postId, User user) {
         try {
-            var result = crudRepository.run(
-                    "delete from Post where id = :fId",
-                    Map.of("fId", postId)
+            var result = crudRepository.run("""
+                    delete from Post
+                    where id = :id and user = :user""",
+                    Map.of("id", postId,
+                            "user", user)
             );
             return result > 0;
         } catch (Exception e) {

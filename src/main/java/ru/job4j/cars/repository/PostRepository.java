@@ -1,6 +1,7 @@
 package ru.job4j.cars.repository;
 
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public interface PostRepository {
 
     List<Post> findAllCarModelLike(String key);
 
-    boolean update(Post post);
+    boolean update(Post post, User user);
 
-    boolean delete(int postId);
+    boolean delete(int postId, User user);
 }

@@ -32,7 +32,7 @@ public class UserController {
             model.addAttribute("error", "User with this email is exist");
             return "users/register";
         }
-        return "redirect:/cars";
+        return "redirect:/posts";
     }
 
     @GetMapping("/login")
@@ -49,7 +49,7 @@ public class UserController {
         }
         var session = request.getSession();
         session.setAttribute("userDto", userOptional.get());
-        return "redirect:/cars";
+        return "redirect:/posts";
     }
 
     @GetMapping("/logout")

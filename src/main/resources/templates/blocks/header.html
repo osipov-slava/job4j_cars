@@ -4,8 +4,8 @@
             <a class="navbar-brand" href="/index" th:text="${@environment.getProperty('app.title')}"></a>
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav d-flex flex-row">
-                    <a class="nav-item nav-link active" href="/cars">Your Car List</a>
                     <a class="nav-item nav-link active" href="/posts">All Posts</a>
+                    <a class="nav-item nav-link active" href="/cars">Your Car List</a>
                 </div>
                 <div class="d-flex flex-row-reverse" th:if="${userDto.name == 'Guest' || userDto.name == null}">
                     <a class="nav-item nav-link text-light" th:href="@{/users/register}">Register</a>

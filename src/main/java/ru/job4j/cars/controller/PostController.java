@@ -44,40 +44,38 @@ public class PostController {
         return "redirect:/posts";
     }
 
-//    @GetMapping("/{id}")
-//    public String getById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
-//        var postOptional = postService.findById(id);
-//        if (postOptional.isEmpty()) {
-//            model.addAttribute("message", "Post with this Id not found!");
-//            return "errors/404";
-//        }
-//        model.addAttribute("post", postOptional.get());
-//        return "posts/one";
-//    }
-//
-//    @GetMapping("update/{id}")
-//    public String editById(Model model, @PathVariable int id, @SessionAttribute User user) {
-//        model.addAttribute("priorities", priorityService.findAll());
-//        model.addAttribute("categories", categoryService.findAll());
-//        var optional = postService.findById(id, user);
-//        if (optional.isEmpty()) {
-//            model.addAttribute("message", "Task with this Id not found!");
-//            return "errors/404";
-//        }
-//        model.addAttribute("task", optional.get());
-//        return "tasks/edit";
-//    }
-//
-//    @PostMapping("/update")
-//    public String update(@ModelAttribute Task task,
-//                         @RequestParam(value = "category.id") List<Integer> categoryIds,
-//                         Model model) {
-//        if (!postService.update(task.getId(), task, categoryIds)) {
-//            model.addAttribute("message", "Update task was unsuccessful!");
-//            return "errors/404";
-//        }
-//        return "redirect:/tasks";
-//    }
+    @GetMapping("/{id}")
+    public String getById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+        var postOptional = postService.findById(id);
+        if (postOptional.isEmpty()) {
+            model.addAttribute("message", "Post with this Id not found!");
+            return "errors/404";
+        }
+        model.addAttribute("postDto", postOptional.get());
+        return "posts/one";
+    }
+
+    @GetMapping("update/{id}")
+    public String editById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+        var optional = postService.findById(id);
+        if (optional.isEmpty()) {
+            model.addAttribute("message", "Post with this Id not found!");
+            return "errors/404";
+        }
+        model.addAttribute("postDto", optional.get());
+        return "posts/edit";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute PostDto postDto,
+                         @SessionAttribute UserDto userDto,
+                         Model model) {
+        if (!postService.update(postDto, userDto)) {
+            model.addAttribute("message", "Update Post was unsuccessful!");
+            return "errors/404";
+        }
+        return "redirect:/posts";
+    }
 //
 //    @GetMapping("/done/{id}")
 //    public String done(Model model, @PathVariable int id, @SessionAttribute User user) {
@@ -85,16 +83,16 @@ public class PostController {
 //            model.addAttribute("message", "Task with this Id not found!");
 //            return "errors/404";
 //        }
-//        return "redirect:/tasks";
+//        return "redirect:/postDtos";
 //    }
 //
-//    @GetMapping("/delete/{id}")
-//    public String delete(Model model, @PathVariable int id, @SessionAttribute User user) {
-//        var isDeleted = postService.deleteById(id, user);
-//        if (!isDeleted) {
-//            model.addAttribute("message", "Task with this Id not found!");
-//            return "errors/404";
-//        }
-//        return "redirect:/tasks";
-//    }
+    @GetMapping("/delete/{id}")
+    public String delete(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+        var isDeleted = postService.deleteById(id, userDto);
+        if (!isDeleted) {
+            model.addAttribute("message", "Post with this Id not found!");
+            return "errors/404";
+        }
+        return "redirect:/posts";
+    }
 }

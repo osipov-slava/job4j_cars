@@ -17,16 +17,16 @@ public class Utils {
         return zoneIds;
     }
 
-    public static Post correctTimeZone(Post post, User user) {
-        var timezone = user.getTimezone().isEmpty() ? TimeZone.getDefault().getID() : user.getTimezone();
+    public static Post correctTimeZone(Post post, String userTimezone) {
+        var timezone = userTimezone == null ? TimeZone.getDefault().getID() : userTimezone;
         post.setCreated(post.getCreated()
                 .atZone(ZoneId.of("UTC"))
                 .withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime());
         return post;
     }
 
-    public static List<Post> correctTimeZoneList(List<Post> posts, User user) {
-        posts.forEach(post -> correctTimeZone(post, user));
+    public static List<Post> correctTimeZoneList(List<Post> posts, String userTimezone) {
+        posts.forEach(post -> correctTimeZone(post, userTimezone));
         return posts;
     }
 

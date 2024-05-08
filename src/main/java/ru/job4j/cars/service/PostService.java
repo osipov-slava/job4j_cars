@@ -12,9 +12,9 @@ public interface PostService {
 
     PostDto create(PostDto task, UserDto userDto, CarDto carDto);
 
-    Optional<PostDto> findById(int id);
+    Optional<PostDto> findById(int id, UserDto userDto);
 
-    List<PostDto> findAll();
+    List<PostDto> findAll(UserDto userDto);
 
     boolean update(PostDto postDto, UserDto userDto);
 

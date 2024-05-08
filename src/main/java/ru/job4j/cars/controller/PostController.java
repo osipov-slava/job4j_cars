@@ -21,8 +21,8 @@ public class PostController {
     private final CarService carService;
 
     @GetMapping
-    public String getAll(Model model) {
-        model.addAttribute("postDtos", postService.findAll());
+    public String getAll(Model model, @SessionAttribute UserDto userDto) {
+        model.addAttribute("postDtos", postService.findAll(userDto));
         return "posts/list";
     }
 
@@ -46,7 +46,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
-        var postOptional = postService.findById(id);
+        var postOptional = postService.findById(id, userDto);
         if (postOptional.isEmpty()) {
             model.addAttribute("message", "Post with this Id not found!");
             return "errors/404";
@@ -57,7 +57,7 @@ public class PostController {
 
     @GetMapping("update/{id}")
     public String editById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
-        var optional = postService.findById(id);
+        var optional = postService.findById(id, userDto);
         if (optional.isEmpty()) {
             model.addAttribute("message", "Post with this Id not found!");
             return "errors/404";

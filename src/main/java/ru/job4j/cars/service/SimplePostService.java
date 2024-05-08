@@ -12,6 +12,8 @@ import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.repository.CarRepository;
 import ru.job4j.cars.repository.PostRepository;
+import ru.job4j.cars.repository.UserRepository;
+import ru.job4j.cars.util.Utils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
@@ -38,31 +40,32 @@ public class SimplePostService implements PostService {
     public PostDto create(PostDto postDto, UserDto userDto, CarDto carDto) {
         Post post = postMapper.getEntityFromDto(postDto);
         post = postRepository.create(post);
-        PostDto postDto1 = postMapper.getModelFromEntity(post, carDto, 10000);
-        return postDto1;
+        return postMapper.getModelFromEntity(post, carDto, 10000);
     }
 
     @Override
-    public Optional<PostDto> findById(int id) {
+    public Optional<PostDto> findById(int id, UserDto userDto) {
         Optional<Post> optionalPost = postRepository.findById(id);
         Optional<PostDto> optionalPostDto = Optional.empty();
         if (optionalPost.isEmpty()) {
             return optionalPostDto;
         }
         var post = optionalPost.get();
+        post = Utils.correctTimeZone(post, userDto.getTimezone());
         Optional<CarDto> optionalCarDto = carService.findById(post.getCar().getId());
         optionalPostDto = Optional.of(postMapper.getModelFromEntity(post, optionalCarDto.get(), 10000));
         return optionalPostDto;
     }
 
     @Override
-    public List<PostDto> findAll() {
+    public List<PostDto> findAll(UserDto userDto) {
         List<Post> posts = postRepository.findAllOrderById();
         List<CarDto> carDtos= carService.findAll();
         Map<Integer, CarDto> mapAllCarDtos = carDtos.stream().
                 collect(Collectors.toMap(CarDto::getId, carDto -> carDto));
         List<PostDto> postDtos = new ArrayList<>();
         for (Post post : posts) {
+            post = Utils.correctTimeZone(post, userDto.getTimezone());
             postDtos.add(postMapper.getModelFromEntity(post, mapAllCarDtos.get(post.getCar().getId()), 10000));
         }
         return postDtos;

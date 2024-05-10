@@ -36,7 +36,7 @@ public class HbnPostRepository implements PostRepository {
                 left join fetch p.user
                 left join fetch p.car
                 left join fetch p.files
-                order by p.id asc""", Post.class);
+                order by p.id desc""", Post.class);
     }
 
     public Optional<Post> findById(int postId) {

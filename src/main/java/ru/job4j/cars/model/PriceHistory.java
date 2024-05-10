@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 @Data
 @Entity
@@ -26,7 +28,8 @@ public class PriceHistory {
 
     private long after;
 
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"))
+            .truncatedTo(ChronoUnit.SECONDS);;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

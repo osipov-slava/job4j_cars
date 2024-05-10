@@ -19,6 +19,8 @@ public class PostDto {
 
     private String ownerName;
 
-    private int price;
+    private long price;
+
+    private int priceHistoryId;
 
 }

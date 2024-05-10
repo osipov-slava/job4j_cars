@@ -23,7 +23,7 @@
                 <p>Created: <span th:text="${postDto.created}"></span></p>
             </div>
         </div>
-        <div class="row">
+        <div class="row" th:if="${userDto.id == postDto.userId}">
             <div class="col-2"><a class="btn btn-secondary w-100"
                                   th:href="@{/posts/update/{id}(id=${postDto.id})}">Edit</a></div>
 <!--            <div class="col-2"><a class="btn btn-success w-100" th:href="@{/tasks/done/{id}(id=${task.id})}">Done</a>-->

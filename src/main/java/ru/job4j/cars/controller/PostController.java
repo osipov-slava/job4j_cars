@@ -90,7 +90,7 @@ public class PostController {
     public String delete(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
         var isDeleted = postService.deleteById(id, userDto);
         if (!isDeleted) {
-            model.addAttribute("message", "Post with this Id not found!");
+            model.addAttribute("message", "Delete Post with this Id was unsuccessful!");
             return "errors/404";
         }
         return "redirect:/posts";

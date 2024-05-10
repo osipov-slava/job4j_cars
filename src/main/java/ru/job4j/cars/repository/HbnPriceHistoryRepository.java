@@ -23,27 +23,57 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
 
     public List<PriceHistory> findAllOrderById() {
         return crudRepository.query("""
-                from PriceHistory ph
-                join fetch ph.post
+                FROM PriceHistory ph
                 order by ph.id asc""", PriceHistory.class);
+    }
+
+    public List<PriceHistory> findAllByPostId(int postId) {
+        return crudRepository.query("""
+                        FROM PriceHistory ph
+                        WHERE post.id = :postId""", PriceHistory.class,
+                Map.of("postId", postId)
+        );
+    }
+
+    public List<PriceHistory> findAllLastPrice() {
+        return crudRepository.query("""
+                FROM PriceHistory
+                WHERE (post.id, created) IN (
+                    SELECT post.id, MAX(created)
+                    FROM PriceHistory
+                    GROUP BY post.id
+                )""", PriceHistory.class
+        );
     }
 
     public Optional<PriceHistory> findById(int priceHistoryId) {
         return crudRepository.optional("""
-                from PriceHistory ph
-                join fetch ph.post
-                where ph.id = :fId""", PriceHistory.class,
-                Map.of("fId", priceHistoryId)
+                        FROM PriceHistory ph
+                        WHERE ph.id = :id""", PriceHistory.class,
+                Map.of("id", priceHistoryId)
         );
     }
 
-    public boolean update(PriceHistory priceHistory) {
+    public Optional<PriceHistory> findLastByPostId(int postId) {
+        return crudRepository.optional("""
+                        FROM PriceHistory ph
+                        WHERE post.id = :postId
+                        AND created = (
+                            SELECT MAX(created)
+                            FROM ph
+                            WHERE post.id = :postId
+                        )""", PriceHistory.class,
+                Map.of("postId", postId)
+        );
+    }
+
+    public boolean delete(int priceHistoryId) {
         try {
-            var result = crudRepository.run(
-                    "UPDATE PriceHistory SET before = :before, after = :after WHERE id = :id",
-                    Map.of("id", priceHistory.getId(),
-                            "before", priceHistory.getBefore(),
-                            "after", priceHistory.getAfter()));
+            var result = crudRepository.run("""
+                            DELETE FROM PriceHistory
+                            WHERE id = :id""",
+                    Map.of("id", priceHistoryId)
+            );
             return result > 0;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -51,11 +81,12 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         return false;
     }
 
-    public boolean delete(int priceHistoryId) {
+    public boolean deleteAllByPostId(int postId) {
         try {
-            var result = crudRepository.run(
-                    "delete from PriceHistory where id = :fId",
-                    Map.of("fId", priceHistoryId)
+            var result = crudRepository.run("""
+                            DELETE FROM PriceHistory
+                            WHERE post.id = :postId""",
+                    Map.of("postId", postId)
             );
             return result > 0;
         } catch (Exception e) {

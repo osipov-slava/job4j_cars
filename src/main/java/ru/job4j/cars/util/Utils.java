@@ -1,8 +1,8 @@
 package ru.job4j.cars.util;
 
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.User;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +15,13 @@ public class Utils {
         List<String> zoneIds = new ArrayList<>();
         Collections.addAll(zoneIds, TimeZone.getAvailableIDs());
         return zoneIds;
+    }
+
+    public static LocalDateTime correctTimeZone(LocalDateTime localDateTime, String userTimezone) {
+        var timezone = userTimezone == null ? TimeZone.getDefault().getID() : userTimezone;
+        return localDateTime
+                .atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.of(timezone)).toLocalDateTime();
     }
 
     public static Post correctTimeZone(Post post, String userTimezone) {

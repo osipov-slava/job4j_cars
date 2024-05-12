@@ -1,22 +1,17 @@
 package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
-import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.CarDto;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
 import ru.job4j.cars.mapstruct.PostMapper;
 import ru.job4j.cars.mapstruct.UserMapper;
-import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.PriceHistory;
-import ru.job4j.cars.repository.CarRepository;
 import ru.job4j.cars.repository.PostRepository;
-import ru.job4j.cars.repository.UserRepository;
 import ru.job4j.cars.util.Utils;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,7 +62,7 @@ public class SimplePostService implements PostService {
     public List<PostDto> findAll(UserDto userDto) {
         List<Post> posts = postRepository.findAllOrderById();
 
-        List<CarDto> carDtos= carService.findAll();
+        List<CarDto> carDtos = carService.findAll();
         Map<Integer, CarDto> mapAllCarDtos = carDtos.stream().
                 collect(Collectors.toMap(CarDto::getId, carDto -> carDto));
 
@@ -91,7 +86,7 @@ public class SimplePostService implements PostService {
         return postRepository.update(postMapper.getEntityFromDto(postDto), userMapper.getEntityFromDto(userDto));
     }
 
-//    @Override
+    //    @Override
 //    public boolean done(int id, UserDto userDto) {
 //        return postRepository.done(id, userDto);
 //    }

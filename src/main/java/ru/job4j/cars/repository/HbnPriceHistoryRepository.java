@@ -21,16 +21,17 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         return priceHistory;
     }
 
-    public List<PriceHistory> findAllOrderById() {
-        return crudRepository.query("""
-                FROM PriceHistory ph
-                order by ph.id asc""", PriceHistory.class);
-    }
+//    public List<PriceHistory> findAllOrderById() {
+//        return crudRepository.query("""
+//                FROM PriceHistory ph
+//                order by ph.id asc""", PriceHistory.class);
+//    }
 
     public List<PriceHistory> findAllByPostId(int postId) {
         return crudRepository.query("""
                         FROM PriceHistory ph
-                        WHERE post.id = :postId""", PriceHistory.class,
+                        WHERE post.id = :postId
+                        ORDER BY created DESC""", PriceHistory.class,
                 Map.of("postId", postId)
         );
     }
@@ -67,19 +68,19 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         );
     }
 
-    public boolean delete(int priceHistoryId) {
-        try {
-            var result = crudRepository.run("""
-                            DELETE FROM PriceHistory
-                            WHERE id = :id""",
-                    Map.of("id", priceHistoryId)
-            );
-            return result > 0;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        return false;
-    }
+//    public boolean delete(int priceHistoryId) {
+//        try {
+//            var result = crudRepository.run("""
+//                            DELETE FROM PriceHistory
+//                            WHERE id = :id""",
+//                    Map.of("id", priceHistoryId)
+//            );
+//            return result > 0;
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//        }
+//        return false;
+//    }
 
     public boolean deleteAllByPostId(int postId) {
         try {
@@ -94,4 +95,5 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         }
         return false;
     }
+
 }

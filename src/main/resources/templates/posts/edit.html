@@ -17,10 +17,10 @@
 
         <div class="row">
             <div class="col-8">
-                <h4>Edit Post</h4>
+                <h3>Edit Post</h3>
                 <h5 th:text="${postDto.carName}"></h5>
                 <p>Owner: <span th:text="${postDto.ownerName}"></span></p>
-                <p>Created: <span th:text="${postDto.created}"></span></p>
+                <p>Post created: <span th:text="${postDto.created}"></span></p>
 
                 <div class="mt-5">Change fields what you need</div>
                 <form class="mt-3" method="post" th:action="@{/posts/update}" th:object="${postDto}">

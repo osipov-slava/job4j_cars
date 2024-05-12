@@ -9,6 +9,7 @@ import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
 import ru.job4j.cars.service.CarService;
 import ru.job4j.cars.service.PostService;
+import ru.job4j.cars.service.PriceHistoryService;
 
 @Controller
 @RequestMapping("/posts")
@@ -19,6 +20,8 @@ public class PostController {
     private final PostService postService;
 
     private final CarService carService;
+
+    private final PriceHistoryService priceHistoryService;
 
     @GetMapping
     public String getAll(Model model, @SessionAttribute UserDto userDto) {
@@ -52,6 +55,8 @@ public class PostController {
             return "errors/404";
         }
         model.addAttribute("postDto", postOptional.get());
+        var priceHistories = priceHistoryService.findAllByPostId(id, userDto);
+        model.addAttribute("priceHistories", priceHistories);
         return "posts/one";
     }
 
@@ -76,7 +81,8 @@ public class PostController {
         }
         return "redirect:/posts";
     }
-//
+
+    //
 //    @GetMapping("/done/{id}")
 //    public String done(Model model, @PathVariable int id, @SessionAttribute User user) {
 //        if (!postService.done(id, user)) {

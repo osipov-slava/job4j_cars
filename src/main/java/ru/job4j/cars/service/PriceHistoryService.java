@@ -1,6 +1,7 @@
 package ru.job4j.cars.service;
 
 import ru.job4j.cars.dto.PostDto;
+import ru.job4j.cars.dto.PriceHistoryDto;
 import ru.job4j.cars.dto.UserDto;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.PriceHistory;
@@ -16,15 +17,15 @@ public interface PriceHistoryService {
 
     Optional<PriceHistory> findLastByPostId(int postId);
 
-    List<PriceHistory> findAll();
+//    List<PriceHistory> findAll();
 
-    List<PriceHistory> findAllByPostId(int postId);
+    List<PriceHistoryDto> findAllByPostId(int postId, UserDto userDto);
 
     List<PriceHistory> findAllLastPrice();
 
     boolean update(PostDto postDto, long price);
 
-    boolean deleteById(int id);
+//    boolean deleteById(int id);
 
     boolean deleteAllByPostId(int postId);
 

@@ -4,12 +4,21 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.CarDto;
+import ru.job4j.cars.dto.FileDto;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
+import ru.job4j.cars.model.File;
 import ru.job4j.cars.service.CarService;
+import ru.job4j.cars.service.FileService;
 import ru.job4j.cars.service.PostService;
 import ru.job4j.cars.service.PriceHistoryService;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
 @RequestMapping("/posts")
@@ -18,6 +27,8 @@ import ru.job4j.cars.service.PriceHistoryService;
 public class PostController {
 
     private final PostService postService;
+
+    private final FileService fileService;
 
     private final CarService carService;
 
@@ -39,8 +50,12 @@ public class PostController {
     public String create(@ModelAttribute PostDto postDto,
                          @ModelAttribute CarDto carDto,
                          @SessionAttribute UserDto userDto,
+                         @RequestParam MultipartFile[] multipartFiles,
                          Model model) {
-        if (postService.create(postDto, userDto, carDto).getId() == 0) {
+        List<File> files = fileService.multipartFilesToFiles(multipartFiles);
+
+        var idCreatedPost = postService.create(postDto, userDto, carDto, files).getId();
+        if (idCreatedPost == 0) {
             model.addAttribute("message", "Creation post was unsuccessful!");
             return "errors/404";
         }
@@ -55,6 +70,9 @@ public class PostController {
             return "errors/404";
         }
         model.addAttribute("postDto", postOptional.get());
+
+        model.addAttribute("fileIds", fileService.getFileIdsByPostId(postOptional.get().getId()));
+
         var priceHistories = priceHistoryService.findAllByPostId(id, userDto);
         model.addAttribute("priceHistories", priceHistories);
         return "posts/one";

@@ -35,6 +35,15 @@ public class HbnFileRepository implements FileRepository {
         );
     }
 
+    @Override
+    public List<File> findFilesByPostId(int postId) {
+        return crudRepository.query("""
+                        from File
+                        where post.id = :postId""",
+                File.class,
+                Map.of("postId", postId));
+    }
+
     public boolean update(File file) {
         try {
             var result = crudRepository.run("UPDATE File SET name = :name, path = :path WHERE id = :id",
@@ -53,6 +62,20 @@ public class HbnFileRepository implements FileRepository {
             var result = crudRepository.run(
                     "delete from File where id = :fId",
                     Map.of("fId", fileId)
+            );
+            return result > 0;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteByPostId(int postId) {
+        try {
+            var result = crudRepository.run(
+                    "delete from File where post.id = :postId",
+                    Map.of("postId", postId)
             );
             return result > 0;
         } catch (Exception e) {

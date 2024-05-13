@@ -18,6 +18,11 @@
             <div class="col-9">
                 <h3 th:text="${postDto.carName}"></h3>
                 <h4 th:text="${postDto.price}" class="text-success"></h4>
+                <div th:each="fileId: ${fileIds}">
+                    <span class="mb-3">
+                        <img th:src="@{/files/{fileId}(fileId=*{fileId})}" style="width: 300px" alt="No image">
+                    </span>
+                </div>
                 <p>Description: <span th:text="${postDto.description}"></span></p>
                 <p>Owner: <span th:text="${postDto.ownerName}"></span></p>
                 <p>Post created: <span th:text="${postDto.created}"></span></p>
@@ -29,7 +34,8 @@
                                   th:href="@{/posts/update/{id}(id=${postDto.id})}">Edit</a></div>
             <!--            <div class="col-2"><a class="btn btn-success w-100" th:href="@{/tasks/done/{id}(id=${task.id})}">Done</a>-->
             <!--            </div>-->
-            <div class="col-2"><a class="btn btn-danger w-100" th:href="@{/posts/delete/{id}(id=${postDto.id})}">Delete</a>
+            <div class="col-2"><a class="btn btn-danger w-100"
+                                  th:href="@{/posts/delete/{id}(id=${postDto.id})}">Delete</a>
             </div>
         </div>
 
@@ -38,7 +44,7 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th class="col-2" scope="col">Price</th>
+                    <th class="col-2" scope="col">Price, $</th>
                     <th class="col-5" scope="col">Date of Change</th>
                 </tr>
                 </thead>

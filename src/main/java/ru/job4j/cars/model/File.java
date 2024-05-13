@@ -25,4 +25,7 @@ public class File {
 
     private String name;
 
+    @ManyToOne
+    private Post post;
+
 }

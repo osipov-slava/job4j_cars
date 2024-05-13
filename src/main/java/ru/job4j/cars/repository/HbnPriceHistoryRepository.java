@@ -89,7 +89,7 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
                             WHERE post.id = :postId""",
                     Map.of("postId", postId)
             );
-            return result > 0;
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
         }

@@ -7,6 +7,7 @@ import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
 import ru.job4j.cars.mapstruct.PostMapper;
 import ru.job4j.cars.mapstruct.UserMapper;
+import ru.job4j.cars.model.File;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.PriceHistory;
 import ru.job4j.cars.repository.PostRepository;
@@ -25,13 +26,16 @@ public class SimplePostService implements PostService {
 
     private final PriceHistoryService priceHistoryService;
 
+    private final FileService fileService;
+
     private final PostMapper postMapper;
 
     private final UserMapper userMapper;
 
     @Override
-    public PostDto create(PostDto postDto, UserDto userDto, CarDto carDto) {
+    public PostDto create(PostDto postDto, UserDto userDto, CarDto carDto, List<File> files) {
         Post post = postMapper.getEntityFromDto(postDto);
+        post.setFiles(files);
         post = postRepository.create(post);
         var priceHistory = priceHistoryService.create(post, postDto.getPrice());
         return postMapper.getModelFromEntity(post, carDto, priceHistory);
@@ -96,6 +100,7 @@ public class SimplePostService implements PostService {
         if (!priceHistoryService.deleteAllByPostId(id)) {
             return false;
         }
+        fileService.deleteByPostId(id);
         return postRepository.delete(id, userMapper.getEntityFromDto(userDto));
     }
 }

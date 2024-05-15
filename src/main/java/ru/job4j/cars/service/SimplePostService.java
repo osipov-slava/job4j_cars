@@ -86,8 +86,9 @@ public class SimplePostService implements PostService {
 
     @Override
     public boolean update(PostDto postDto, UserDto userDto) {
+        Post post = postMapper.getEntityFromDto(postDto);
         priceHistoryService.update(postDto, postDto.getPrice());
-        return postRepository.update(postMapper.getEntityFromDto(postDto), userMapper.getEntityFromDto(userDto));
+        return postRepository.update(post, userMapper.getEntityFromDto(userDto));
     }
 
     //    @Override
@@ -103,4 +104,5 @@ public class SimplePostService implements PostService {
         fileService.deleteByPostId(id);
         return postRepository.delete(id, userMapper.getEntityFromDto(userDto));
     }
+
 }

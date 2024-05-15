@@ -22,28 +22,38 @@
                 <p>Owner: <span th:text="${postDto.ownerName}"></span></p>
                 <p>Post created: <span th:text="${postDto.created}"></span></p>
 
-                <div class="mt-5">Change fields what you need</div>
-                <form class="mt-3" method="post" th:action="@{/posts/update}" th:object="${postDto}">
+                <div class="mt-3">Change fields what you need</div>
+                <form class="mt-3" method="post" th:action="@{/posts/update}" th:object="${postDto}" enctype="multipart/form-data">
                     <input name="id" th:field="*{id}" type="hidden">
                     <input name="carId" th:field="*{carId}" type="hidden">
                     <input name="userId" th:field="*{userId}" type="hidden">
                     <input name="priceHistoryId" th:field="*{priceHistoryId}" type="hidden">
 
-                    <div class="mb-3">
+                    <div class="mt-3">
                         <label class="form-label" for="description"><b>Description</b></label>
                         <textarea class="form-control" id="description" name="description"
                                   placeholder="Description" required rows="10"
                                   th:text="${postDto.description}" type="text"></textarea>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mt-3">
                         <label class="form-label" for="price"><b>Price</b></label>
                         <input class="form-control" id="price" name="price" placeholder="price in $"
                                step="1" min="0" required
                                th:value="${postDto.price}" type="number">
                     </div>
 
-                    <div class="mb-3">
+                    <div th:each="fileId: ${fileIds}">
+                    <span class="mt-3">
+                        <img th:src="@{/files/{fileId}(fileId=${fileId})}" style="width: 300px" alt="No image">
+                    </span>
+                    </div>
+                    <div class="mt-3">
+                        <label for="formFile"><b>Photo (insert all files instead of existed)</b></label>
+                        <input class="form-control form-control-sm w-100" type="file" multiple id="formFile" name="multipartFiles">
+                    </div>
+
+                    <div class="mt-3">
                         <div class="col-6"></div>
                         <div class="col-6">
                             <div class="row">

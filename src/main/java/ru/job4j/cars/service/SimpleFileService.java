@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.FileDto;
+import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.model.File;
+import ru.job4j.cars.model.Post;
 import ru.job4j.cars.repository.FileRepository;
 
 import java.io.IOException;
@@ -48,8 +50,11 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public List<File> multipartFilesToFiles(MultipartFile[] multipartFiles) {
+    public List<File> createFilesFromMultipartFiles(MultipartFile[] multipartFiles) {
         List<File> files = new ArrayList<>();
+        if (isEmptyMultipartFiles(multipartFiles)) {
+            return files;
+        }
         Arrays.stream(multipartFiles).forEach(file -> {
             try {
                 files.add(save(new FileDto(file.getOriginalFilename(), file.getBytes())));
@@ -58,6 +63,34 @@ public class SimpleFileService implements FileService {
             }
         });
         return files;
+    }
+
+    @Override
+    public List<File> updateFilesFromMultipartFiles(MultipartFile[] multipartFiles, PostDto postDto) {
+        List<File> files = createFilesFromMultipartFiles(multipartFiles);
+        if (files.isEmpty()) {
+            return files;
+        }
+        deleteByPostId(postDto.getId());
+
+        var post = new Post();
+        post.setId(postDto.getId());
+        for (File file : files) {
+            file.setPost(post);
+            fileRepository.create(file);
+        }
+        return files;
+    }
+
+    private boolean isEmptyMultipartFiles(MultipartFile[] multipartFiles) {
+        try {
+            if (multipartFiles[0].getBytes().length == 0) {
+                return true;
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+        return false;
     }
 
     private String getNewFilePath(String sourceName) {
@@ -100,14 +133,14 @@ public class SimpleFileService implements FileService {
         }
     }
 
-    @Override
-    public void deleteById(int id) {
-        var fileOptional = fileRepository.findById(id);
-        if (fileOptional.isPresent()) {
-            deleteFile(fileOptional.get().getPath());
-            fileRepository.delete(id);
-        }
-    }
+//    @Override
+//    public void deleteById(int id) {
+//        var fileOptional = fileRepository.findById(id);
+//        if (fileOptional.isPresent()) {
+//            deleteFile(fileOptional.get().getPath());
+//            fileRepository.delete(id);
+//        }
+//    }
 
     @Override
     public void deleteByPostId(int postId) {

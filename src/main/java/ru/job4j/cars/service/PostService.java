@@ -1,5 +1,7 @@
 package ru.job4j.cars.service;
 
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.CarDto;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;

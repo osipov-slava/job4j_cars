@@ -26,14 +26,13 @@
                 <p>Description: <span th:text="${postDto.description}"></span></p>
                 <p>Owner: <span th:text="${postDto.ownerName}"></span></p>
                 <p>Post created: <span th:text="${postDto.created}"></span></p>
+                <p>Post actual: <span th:text="${postDto.isActive}"></span></p>
             </div>
         </div>
 
         <div class="row" th:if="${userDto.id == postDto.userId}">
             <div class="col-2"><a class="btn btn-success w-100"
                                   th:href="@{/posts/update/{id}(id=${postDto.id})}">Edit</a></div>
-            <!--            <div class="col-2"><a class="btn btn-success w-100" th:href="@{/tasks/done/{id}(id=${task.id})}">Done</a>-->
-            <!--            </div>-->
             <div class="col-2"><a class="btn btn-danger w-100"
                                   th:href="@{/posts/delete/{id}(id=${postDto.id})}">Delete</a>
             </div>

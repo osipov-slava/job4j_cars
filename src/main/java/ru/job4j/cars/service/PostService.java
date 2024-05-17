@@ -20,11 +20,14 @@ public interface PostService {
 
     boolean update(PostDto postDto, UserDto userDto);
 
-//    boolean done(int id, UserDto userDto);
-
     boolean deleteById(int id, UserDto userDto);
 
-//    List<Post> findFinished(UserDto userDto);
-//
-//    List<Post> findInProgress(UserDto userDto);
+    List<PostDto> findActive(UserDto userDto);
+
+    List<PostDto> findInactive(UserDto userDto);
+
+    List<PostDto> findWithPhotos(UserDto userDto);
+
+    List<PostDto> findLastDay(UserDto userDto);
+
 }

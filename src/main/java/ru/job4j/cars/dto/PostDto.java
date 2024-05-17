@@ -11,6 +11,8 @@ public class PostDto {
 
     private String created;
 
+    private Boolean isActive = false;
+
     private int carId;
 
     private String carName;

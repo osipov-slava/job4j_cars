@@ -15,32 +15,47 @@
     <div class="container">
         <h4 class="mt-3">Post List</h4>
 
-        <div class="row">
-            <div class="col-2"><a class="btn btn-primary w-100" th:href="@{/posts/create}">Add Post</a></div>
+        <h5 class="mt-3">Filters:</h5>
+        <div class="mr-3"><a th:href="@{/posts}">All</a></div>
+        <div class="mr-3"><a th:href="@{/posts/filter/active}">Active</a></div>
+        <div class="mr-3"><a th:href="@{/posts/filter/inactive}">Sold or Canceled</a></div>
+        <div class="mr-3"><a th:href="@{/posts/filter/withPhotos}">Only with photos</a></div>
+        <div class="mr-3"><a th:href="@{/posts/filter/lastDay}">For the Last day (24 hours)</a></div>
+
+        <div >
             <table class="table mt-3">
                 <thead>
-                    <tr>
-                        <th class="col-1" scope="col">#</th>
-                        <th class="col-2" scope="col">Car Model</th>
-                        <th class="col-5" scope="col">Description</th>
-                        <th class="col-1" scope="col">Price</th>
-                        <th class="col-1" scope="col">Owner</th>
-                        <th class="col-2" scope="col">Created</th>
-                    </tr>
+                <tr>
+                    <th class="col-1" scope="col">#</th>
+                    <th class="col-2" scope="col">Car Model</th>
+                    <th class="col-5" scope="col">Description</th>
+                    <th class="col-1" scope="col">Price</th>
+                    <th class="col-1" scope="col">Owner</th>
+                    <th class="col-2" scope="col">Created</th>
+                    <th class="col-2" scope="col">Active</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                    <tr th:each="postDto: ${postDtos}">
-                        <td th:text="${postDto.id}"/>
-                        <td><a th:text="${postDto.carName}" th:href="@{/posts/{id}(id=${postDto.id})}" class="text-dark"></a></td>
-                        <td th:text="${postDto.description}"/>
-                        <td th:text="${postDto.price}"/>
-                        <td th:text="${postDto.ownerName}"/>
-                        <td th:text="${postDto.created}"/>
-                    </tr>
+                <tr th:each="postDto: ${postDtos}">
+                    <td th:text="${postDto.id}"/>
+                    <td><a th:text="${postDto.carName}" th:href="@{/posts/{id}(id=${postDto.id})}"
+                           class="text-dark"></a></td>
+                    <td th:text="${postDto.description}"/>
+                    <td th:text="${postDto.price}"/>
+                    <td th:text="${postDto.ownerName}"/>
+                    <td th:text="${postDto.created}"/>
+                    <span class="d-flex" th:if="${postDto.isActive == true}">
+                        <td class="text-success">Actual</td>
+                    </span>
+                    <span class="d-flex" th:if="${postDto.isActive == false}">
+                        <td class="text-warning">Sold or Canceled</td>
+                    </span>>
+                </tr>
                 </tbody>
             </table>
 
+            <div class="col-2"><a class="btn btn-primary w-100" th:href="@{/posts/create}">Add Post</a></div>
         </div>
     </div>
     <footer th:insert="blocks/footer :: footer"></footer>

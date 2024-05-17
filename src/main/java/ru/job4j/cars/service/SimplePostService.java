@@ -49,8 +49,7 @@ public class SimplePostService implements PostService {
         if (optionalPost.isEmpty()) {
             return optionalPostDto;
         }
-        var post = optionalPost.get();
-        post = Utils.correctTimeZone(post, userDto.getTimezone());
+        var post = Utils.correctTimeZone(optionalPost.get(), userDto.getTimezone());
 
         Optional<CarDto> optionalCarDto = carService.findById(post.getCar().getId());
         var carDto = optionalCarDto.orElseGet(CarDto::new);
@@ -65,7 +64,10 @@ public class SimplePostService implements PostService {
     @Override
     public List<PostDto> findAll(UserDto userDto) {
         List<Post> posts = postRepository.findAllOrderById();
+        return makePostDtosWithAdditionalData(posts, userDto);
+    }
 
+    private List<PostDto> makePostDtosWithAdditionalData (List<Post> posts, UserDto userDto) {
         List<CarDto> carDtos = carService.findAll();
         Map<Integer, CarDto> mapAllCarDtos = carDtos.stream().
                 collect(Collectors.toMap(CarDto::getId, carDto -> carDto));
@@ -78,10 +80,34 @@ public class SimplePostService implements PostService {
 
         List<PostDto> postDtos = new ArrayList<>();
         for (Post post : posts) {
-            post = Utils.correctTimeZone(post, userDto.getTimezone());
+            Utils.correctTimeZone(post, userDto.getTimezone());
             postDtos.add(postMapper.getModelFromEntity(post, mapAllCarDtos.get(post.getCar().getId()), mapAllPH.get(post.getId())));
         }
         return postDtos;
+    }
+
+    @Override
+    public List<PostDto> findActive(UserDto userDto) {
+        List<Post> posts = postRepository.findActive();
+        return makePostDtosWithAdditionalData(posts, userDto);
+    }
+
+    @Override
+    public List<PostDto> findInactive(UserDto userDto) {
+        List<Post> posts = postRepository.findInactive();
+        return makePostDtosWithAdditionalData(posts, userDto);
+    }
+
+    @Override
+    public List<PostDto> findWithPhotos(UserDto userDto) {
+        List<Post> posts = postRepository.findAllWithFile();
+        return makePostDtosWithAdditionalData(posts, userDto);
+    }
+
+    @Override
+    public List<PostDto> findLastDay(UserDto userDto) {
+        List<Post> posts = postRepository.findAllForLastDay();
+        return makePostDtosWithAdditionalData(posts, userDto);
     }
 
     @Override
@@ -91,11 +117,6 @@ public class SimplePostService implements PostService {
         return postRepository.update(post, userMapper.getEntityFromDto(userDto));
     }
 
-    //    @Override
-//    public boolean done(int id, UserDto userDto) {
-//        return postRepository.done(id, userDto);
-//    }
-//
     @Override
     public boolean deleteById(int id, UserDto userDto) {
         if (!priceHistoryService.deleteAllByPostId(id)) {

@@ -27,6 +27,9 @@ public class Post {
     private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"))
             .truncatedTo(ChronoUnit.SECONDS);
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @ManyToOne
     @JoinColumn(name = "auto_user_id")
     private User user;

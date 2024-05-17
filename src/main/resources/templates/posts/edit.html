@@ -36,6 +36,11 @@
                                   th:text="${postDto.description}" type="text"></textarea>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="isActive">Post is Active?</label>
+                        <input type="checkbox" name="isActive" id="isActive" th:check="*{isActive}" th:value="true">
+                    </div>
+
                     <div class="mt-3">
                         <label class="form-label" for="price"><b>Price</b></label>
                         <input class="form-control" id="price" name="price" placeholder="price in $"

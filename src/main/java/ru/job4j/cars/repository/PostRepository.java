@@ -22,7 +22,12 @@ public interface PostRepository {
 
     List<Post> findAllCarModelLike(String key);
 
+    List<Post> findActive();
+
+    List<Post> findInactive();
+
     boolean update(Post post, User user);
 
     boolean delete(int postId, User user);
+
 }

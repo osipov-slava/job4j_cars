@@ -38,7 +38,12 @@ public class PostController {
 
     @GetMapping("/create")
     public String getCreationPage(Model model, @SessionAttribute UserDto userDto) {
-        model.addAttribute("carDtos", carService.findAllByUser(userDto));
+        var carDtos = carService.findAllByUser(userDto);
+        if (carDtos.isEmpty()) {
+            model.addAttribute("message", "You haven't any car! First create your car");
+            return "errors/404";
+        }
+        model.addAttribute("carDtos", carDtos);
         return "posts/create";
     }
 
@@ -97,16 +102,6 @@ public class PostController {
         return "redirect:/posts";
     }
 
-    //
-//    @GetMapping("/done/{id}")
-//    public String done(Model model, @PathVariable int id, @SessionAttribute User user) {
-//        if (!postService.done(id, user)) {
-//            model.addAttribute("message", "Task with this Id not found!");
-//            return "errors/404";
-//        }
-//        return "redirect:/postDtos";
-//    }
-//
     @GetMapping("/delete/{id}")
     public String delete(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
         var isDeleted = postService.deleteById(id, userDto);

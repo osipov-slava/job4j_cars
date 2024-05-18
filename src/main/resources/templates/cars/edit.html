@@ -16,8 +16,8 @@
     <div class="container mt-4">
 
         <div class="row">
-            <div class="col-8">
-                <h4>Edit Task</h4>
+            <div class="col-4">
+                <h4>Edit Car</h4>
                 <div>Change fields what you need</div>
                 <form class="mt-3" method="post" th:action="@{/cars/update}" th:object="${carDto}">
                     <input name="id" th:field="*{id}" type="hidden">
@@ -30,6 +30,7 @@
                                placeholder="Car Model" required
                                th:value="${carDto.name}" type="text">
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label" for="engineName"><b>Description</b></label>
                         <input class="form-control" id="engineName" name="engineName"
@@ -38,8 +39,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <div class="col-6"></div>
-                        <div class="col-6">
+                        <label for="typeId"><b>Type</b></label>
+                        <select class="form-control" id="typeId" name="typeId" required th:field="*{typeId}">
+                            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="colorId"><b>Color</b></label>
+                        <select class="form-control" id="colorId" name="colorId" required th:field="*{colorId}">
+                            <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="col-12">
                             <div class="row">
                                 <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/cars}">Cancel</a></div>
                                 <div class="col-6">

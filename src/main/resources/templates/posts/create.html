@@ -28,7 +28,6 @@
                             <option th:each="carDto : ${carDtos}" th:value="${carDto.id}" th:text="${carDto.name}"></option>
                         </select>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label" for="description"><b>Description</b></label>
                         <textarea class="form-control" id="description" name="description" placeholder="Description..."

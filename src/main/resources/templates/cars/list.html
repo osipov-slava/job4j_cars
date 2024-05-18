@@ -28,10 +28,10 @@
 
                 <tbody>
                     <tr th:each="carDto: ${carDtos}">
-                        <td th:text="${carDto.id}"/>
-                        <td><a th:text="${carDto.name}" th:href="@{/cars/{id}(id=${carDto.id})}" class="text-dark"></a></td>
-                        <td th:text="${carDto.engineName}"/>
-                        <td th:text="${carDto.ownerName}"/>
+                        <td th:text="${carDto.id}"></td>
+                        <td><a th:text="${carDto.name}" th:href="@{/cars/{id}(id=${carDto.id})}"></a></td>
+                        <td th:text="${carDto.engineName}"></td>
+                        <td th:text="${carDto.ownerName}"></td>
                     </tr>
                 </tbody>
             </table>

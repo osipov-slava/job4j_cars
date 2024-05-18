@@ -23,5 +23,7 @@
         <mapping class="ru.job4j.cars.model.Post"/>
         <mapping class="ru.job4j.cars.model.PriceHistory"/>
         <mapping class="ru.job4j.cars.model.File"/>
+        <mapping class="ru.job4j.cars.model.Type"/>
+        <mapping class="ru.job4j.cars.model.Color"/>
     </session-factory>
 </hibernate-configuration>

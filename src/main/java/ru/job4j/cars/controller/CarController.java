@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.cars.dto.CarDto;
 import ru.job4j.cars.dto.UserDto;
 import ru.job4j.cars.service.CarService;
+import ru.job4j.cars.service.ColorService;
+import ru.job4j.cars.service.TypeService;
 
 @Controller
 @RequestMapping("/cars")
@@ -16,6 +18,10 @@ public class CarController {
 
     private final CarService carService;
 
+    private final ColorService colorService;
+
+    private final TypeService typeService;
+
     @GetMapping
     public String getAllByUser(Model model, @SessionAttribute UserDto userDto) {
         model.addAttribute("carDtos", carService.findAllByUser(userDto));
@@ -24,6 +30,8 @@ public class CarController {
 
     @GetMapping("/create")
     public String getCreationPage(Model model) {
+        model.addAttribute("colors", colorService.findAll());
+        model.addAttribute("types", typeService.findAll());
         return "cars/create";
     }
 
@@ -56,6 +64,8 @@ public class CarController {
             return "errors/404";
         }
         model.addAttribute("carDto", optional.get());
+        model.addAttribute("colors", colorService.findAll());
+        model.addAttribute("types", typeService.findAll());
         return "cars/edit";
     }
 

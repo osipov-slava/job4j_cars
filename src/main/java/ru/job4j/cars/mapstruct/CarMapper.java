@@ -11,6 +11,10 @@ public interface CarMapper {
 
     @Mapping(source = "car.id", target = "id")
     @Mapping(source = "car.name", target = "name")
+    @Mapping(source = "car.type.id", target = "typeId")
+    @Mapping(source = "car.type.name", target = "type")
+    @Mapping(source = "car.color.id", target = "colorId")
+    @Mapping(source = "car.color.name", target = "color")
     @Mapping(source = "car.engine.id", target = "engineId")
     @Mapping(source = "car.engine.name", target = "engineName")
     @Mapping(source = "car.owner.id", target = "ownerId")

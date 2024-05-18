@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.CarDto;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
+import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.File;
 import ru.job4j.cars.service.CarService;
 import ru.job4j.cars.service.FileService;
@@ -70,7 +71,13 @@ public class PostController {
             model.addAttribute("message", "Post with this Id not found!");
             return "errors/404";
         }
+        var carOptional = carService.findById(postOptional.get().getCarId());
+        if (carOptional.isEmpty()) {
+            model.addAttribute("message", "Car for this Post not found!");
+            return "errors/404";
+        }
         model.addAttribute("postDto", postOptional.get());
+        model.addAttribute("carDto", carOptional.get());
         model.addAttribute("fileIds", fileService.getFileIdsByPostId(postOptional.get().getId()));
         model.addAttribute("priceHistories", priceHistoryService.findAllByPostId(id, userDto));
         return "posts/one";

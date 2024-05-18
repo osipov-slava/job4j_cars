@@ -19,13 +19,13 @@
                 <h4 th:text="${carDto.name}"></h4>
                 <p th:text="${carDto.engineName}"></p>
                 <p th:text="${carDto.ownerName}"></p>
+                <p th:text="${carDto.type}"></p>
+                <p th:text="${carDto.color}"></p>
             </div>
         </div>
         <div class="row">
             <div class="col-2"><a class="btn btn-secondary w-100"
                                   th:href="@{/cars/update/{id}(id=${carDto.id})}">Edit</a></div>
-<!--            <div class="col-2"><a class="btn btn-success w-100" th:href="@{/tasks/done/{id}(id=${task.id})}">Done</a>-->
-<!--            </div>-->
             <div class="col-2"><a class="btn btn-danger w-100" th:href="@{/cars/delete/{id}(id=${carDto.id})}">Delete</a>
             </div>
         </div>

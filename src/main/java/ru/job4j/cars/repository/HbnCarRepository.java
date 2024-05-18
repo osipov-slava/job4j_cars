@@ -56,12 +56,15 @@ public class HbnCarRepository implements CarRepository {
     public boolean update(Car car) {
         try {
             var result = crudRepository.run("""
-                            UPDATE Car c
-                            SET c.name = :name, c.engine = :engine, c.owner = :owner
-                            WHERE c.id = :id""",
+                            UPDATE Car
+                            SET name = :name, engine = :engine, owner = :owner,
+                                type = :type, color = :color
+                            WHERE id = :id""",
                     Map.of("id", car.getId(),
                             "name", car.getName(),
                             "engine", car.getEngine(),
+                            "type", car.getType(),
+                            "color", car.getColor(),
                             "owner", car.getOwner())
             );
             return result > 0;

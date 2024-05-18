@@ -38,19 +38,14 @@
 
                 <tbody>
                 <tr th:each="postDto: ${postDtos}">
-                    <td th:text="${postDto.id}"/>
-                    <td><a th:text="${postDto.carName}" th:href="@{/posts/{id}(id=${postDto.id})}"
-                           class="text-dark"></a></td>
-                    <td th:text="${postDto.description}"/>
-                    <td th:text="${postDto.price}"/>
-                    <td th:text="${postDto.ownerName}"/>
-                    <td th:text="${postDto.created}"/>
-                    <span class="d-flex" th:if="${postDto.isActive == true}">
-                        <td class="text-success">Actual</td>
-                    </span>
-                    <span class="d-flex" th:if="${postDto.isActive == false}">
-                        <td class="text-warning">Sold or Canceled</td>
-                    </span>>
+                    <td th:text="${postDto.id}"></td>
+                    <td><a th:text="${postDto.carName}" th:href="@{/posts/{id}(id=${postDto.id})}"></a></td>
+                    <td th:text="${postDto.description}"></td>
+                    <td th:text="${postDto.price}"></td>
+                    <td th:text="${postDto.ownerName}"></td>
+                    <td th:text="${postDto.created}"></td>
+                    <td class="text-success" th:if="${postDto.isActive == true}">Actual</td>
+                    <td class="text-warning" th:if="${postDto.isActive == false}">Sold or Canceled</td>
                 </tr>
                 </tbody>
             </table>

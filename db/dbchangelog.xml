@@ -14,4 +14,6 @@
     <include file="scripts/009_ddl_create_history_owner_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_ddl_create_file_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_ddl_alter_auto_user_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/012_ddl_create_alter_car_type_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/013_ddl_create_alter_color_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

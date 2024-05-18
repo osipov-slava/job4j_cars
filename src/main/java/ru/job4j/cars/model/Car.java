@@ -26,6 +26,14 @@ public class Car {
     private Engine engine;
 
     @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type type;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
+
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private Owner owner;
 

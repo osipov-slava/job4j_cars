@@ -9,6 +9,14 @@ public class CarDto {
 
     private String name;
 
+    private int typeId;
+
+    private String type;
+
+    private int colorId;
+
+    private String color;
+
     private int engineId;
 
     private String engineName;

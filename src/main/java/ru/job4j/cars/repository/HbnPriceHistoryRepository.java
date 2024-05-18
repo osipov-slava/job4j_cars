@@ -21,12 +21,6 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         return priceHistory;
     }
 
-//    public List<PriceHistory> findAllOrderById() {
-//        return crudRepository.query("""
-//                FROM PriceHistory ph
-//                order by ph.id asc""", PriceHistory.class);
-//    }
-
     public List<PriceHistory> findAllByPostId(int postId) {
         return crudRepository.query("""
                         FROM PriceHistory ph
@@ -67,20 +61,6 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
                 Map.of("postId", postId)
         );
     }
-
-//    public boolean delete(int priceHistoryId) {
-//        try {
-//            var result = crudRepository.run("""
-//                            DELETE FROM PriceHistory
-//                            WHERE id = :id""",
-//                    Map.of("id", priceHistoryId)
-//            );
-//            return result > 0;
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
-//        return false;
-//    }
 
     public boolean deleteAllByPostId(int postId) {
         try {

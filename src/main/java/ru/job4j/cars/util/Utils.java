@@ -32,9 +32,4 @@ public class Utils {
         return post;
     }
 
-    public static List<Post> correctTimeZoneList(List<Post> posts, String userTimezone) {
-        posts.forEach(post -> correctTimeZone(post, userTimezone));
-        return posts;
-    }
-
 }

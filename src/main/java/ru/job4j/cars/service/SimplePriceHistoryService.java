@@ -41,11 +41,6 @@ public class SimplePriceHistoryService implements PriceHistoryService {
         return priceHistoryRepository.findLastByPostId(postId);
     }
 
-//    @Override
-//    public List<PriceHistory> findAll() {
-//        return priceHistoryRepository.findAllOrderById();
-//    }
-
     @Override
     public List<PriceHistoryDto> findAllByPostId(int postId, UserDto userDto) {
         var priceHistories = priceHistoryRepository.findAllByPostId(postId);
@@ -77,11 +72,6 @@ public class SimplePriceHistoryService implements PriceHistoryService {
         }
         return false;
     }
-
-//    @Override
-//    public boolean deleteById(int id) {
-//        return priceHistoryRepository.delete(id);
-//    }
 
     @Override
     public boolean deleteAllByPostId(int postId) {

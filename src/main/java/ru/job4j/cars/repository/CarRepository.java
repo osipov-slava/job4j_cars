@@ -18,4 +18,5 @@ public interface CarRepository {
     boolean update(Car car);
 
     boolean delete(int carId, int ownerId);
+
 }

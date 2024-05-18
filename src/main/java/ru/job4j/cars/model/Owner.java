@@ -27,4 +27,5 @@ public class Owner {
 
     @OneToMany(mappedBy = "owner")
     private List<HistoryOwner> historyOwners = new ArrayList<>();
+
 }

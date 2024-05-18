@@ -119,30 +119,30 @@ public class HbnPostRepository implements PostRepository {
 
     public List<Post> findActive() {
         return crudRepository.query("""
-                        select distinct p
-                        from Post p
-                        left join fetch p.user
-                        left join fetch p.car
-                        left join fetch p.files
-                        where p.isActive = true""", Post.class);
+                select distinct p
+                from Post p
+                left join fetch p.user
+                left join fetch p.car
+                left join fetch p.files
+                where p.isActive = true""", Post.class);
     }
 
     public List<Post> findInactive() {
         return crudRepository.query("""
-                        select distinct p
-                        from Post p
-                        left join fetch p.user
-                        left join fetch p.car
-                        left join fetch p.files
-                        where p.isActive = false""", Post.class);
+                select distinct p
+                from Post p
+                left join fetch p.user
+                left join fetch p.car
+                left join fetch p.files
+                where p.isActive = false""", Post.class);
     }
 
     public boolean update(Post post, User user) {
         try {
             var result = crudRepository.run("""
-                    UPDATE Post
-                    SET description = :description, is_active = :isActive
-                    WHERE id = :id AND user = :user""",
+                            UPDATE Post
+                            SET description = :description, is_active = :isActive
+                            WHERE id = :id AND user = :user""",
                     Map.of("id", post.getId(),
                             "description", post.getDescription(),
                             "isActive", post.getIsActive(),
@@ -157,8 +157,8 @@ public class HbnPostRepository implements PostRepository {
     public boolean delete(int postId, User user) {
         try {
             var result = crudRepository.run("""
-                    delete from Post
-                    where id = :id and user = :user""",
+                            delete from Post
+                            where id = :id and user = :user""",
                     Map.of("id", postId,
                             "user", user)
             );

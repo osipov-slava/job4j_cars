@@ -69,4 +69,5 @@ public class HbnHistoryOwnerRepository implements HistoryOwnerRepository {
         }
         return false;
     }
+
 }

@@ -67,7 +67,7 @@ public class SimplePostService implements PostService {
         return makePostDtosWithAdditionalData(posts, userDto);
     }
 
-    private List<PostDto> makePostDtosWithAdditionalData (List<Post> posts, UserDto userDto) {
+    private List<PostDto> makePostDtosWithAdditionalData(List<Post> posts, UserDto userDto) {
         List<CarDto> carDtos = carService.findAll();
         Map<Integer, CarDto> mapAllCarDtos = carDtos.stream().
                 collect(Collectors.toMap(CarDto::getId, carDto -> carDto));

@@ -17,30 +17,33 @@ public class HbnUserRepository implements UserRepository {
     private final CrudRepository crudRepository;
 
     /**
-     * Сохранить в базе.
+     * Create new user in database.
      *
-     * @param user пользователь.
-     * @return пользователь с id.
+     * @param user user.
+     * @return user with id.
      */
+    @Override
     public User create(User user) {
         crudRepository.run(session -> session.persist(user));
         return user;
     }
 
     /**
-     * Список пользователь отсортированных по id.
+     * List of users ordered by id.
      *
-     * @return список пользователей.
+     * @return user's list.
      */
+    @Override
     public List<User> findAllOrderById() {
         return crudRepository.query("FROM User ORDER BY id ASC", User.class);
     }
 
     /**
-     * Найти пользователя по ID
+     * Find user by ID.
      *
-     * @return пользователь.
+     * @return user.
      */
+    @Override
     public Optional<User> findById(int userId) {
         return crudRepository.optional(
                 "FROM User WHERE id = :id", User.class,
@@ -58,46 +61,21 @@ public class HbnUserRepository implements UserRepository {
     @Override
     public Optional<User> findByEmailAndPassword(String email, String password) {
         return crudRepository.optional("""
-                FROM User u
-                WHERE u.email = :email
-                AND u.password = :password
-                """, User.class,
+                        FROM User u
+                        WHERE u.email = :email
+                        AND u.password = :password
+                        """, User.class,
                 Map.of("email", email,
                         "password", password)
         );
     }
 
     /**
-     * Список пользователей по login LIKE %key%
+     * Update user in database.
      *
-     * @param key key
-     * @return список пользователей.
+     * @param user user.
      */
-    public List<User> findByLikeLogin(String key) {
-        return crudRepository.query(
-                "FROM User WHERE login LIKE :key", User.class,
-                Map.of("key", "%" + key + "%")
-        );
-    }
-
-    /**
-     * Найти пользователя по login.
-     *
-     * @param login login.
-     * @return Optional of user.
-     */
-    public Optional<User> findByLogin(String login) {
-        return crudRepository.optional(
-                "FROM User WHERE login = :login", User.class,
-                Map.of("login", login)
-        );
-    }
-
-    /**
-     * Обновить в базе пользователя.
-     *
-     * @param user пользователь.
-     */
+    @Override
     public boolean update(User user) {
         try {
             var result = crudRepository.run("""
@@ -116,10 +94,12 @@ public class HbnUserRepository implements UserRepository {
     }
 
     /**
-     * Удалить пользователя по id.
+     * Delete user from database by id.
      *
-     * @param userId ID
+     * @param userId ID.
+     * @return is updated.
      */
+    @Override
     public boolean delete(int userId) {
         try {
             var result = crudRepository.run(
@@ -132,4 +112,5 @@ public class HbnUserRepository implements UserRepository {
         }
         return false;
     }
+
 }

@@ -20,4 +20,5 @@ public interface FileRepository {
     boolean delete(int fileId);
 
     boolean deleteByPostId(int postId);
+
 }

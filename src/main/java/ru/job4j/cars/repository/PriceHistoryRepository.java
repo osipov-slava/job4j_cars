@@ -9,8 +9,6 @@ public interface PriceHistoryRepository {
 
     PriceHistory create(PriceHistory priceHistory);
 
-//    List<PriceHistory> findAllOrderById();
-
     List<PriceHistory> findAllByPostId(int postId);
 
     List<PriceHistory> findAllLastPrice();
@@ -18,8 +16,6 @@ public interface PriceHistoryRepository {
     Optional<PriceHistory> findById(int priceHistoryId);
 
     Optional<PriceHistory> findLastByPostId(int postId);
-
-//    boolean delete(int priceHistoryId);
 
     boolean deleteAllByPostId(int postId);
 

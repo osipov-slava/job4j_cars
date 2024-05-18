@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Color;
-import ru.job4j.cars.model.Owner;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,7 @@ import java.util.Map;
 public class HbnColorRepository implements ColorRepository {
 
     private final CrudRepository crudRepository;
-    
+
     @Override
     public Color create(Color color) {
         crudRepository.run(session -> session.persist(color));
@@ -40,5 +39,5 @@ public class HbnColorRepository implements ColorRepository {
         }
         return false;
     }
-    
+
 }

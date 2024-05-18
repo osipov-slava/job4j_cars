@@ -26,7 +26,7 @@ public class File {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name="post_id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
 }

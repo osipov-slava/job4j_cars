@@ -66,10 +66,10 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public List<File> updateFilesFromMultipartFiles(MultipartFile[] multipartFiles, PostDto postDto) {
+    public void updateFilesFromMultipartFiles(MultipartFile[] multipartFiles, PostDto postDto) {
         List<File> files = createFilesFromMultipartFiles(multipartFiles);
         if (files.isEmpty()) {
-            return files;
+            return;
         }
         deleteByPostId(postDto.getId());
 
@@ -79,7 +79,6 @@ public class SimpleFileService implements FileService {
             file.setPost(post);
             fileRepository.create(file);
         }
-        return files;
     }
 
     private boolean isEmptyMultipartFiles(MultipartFile[] multipartFiles) {
@@ -132,15 +131,6 @@ public class SimpleFileService implements FileService {
             throw new RuntimeException(e);
         }
     }
-
-//    @Override
-//    public void deleteById(int id) {
-//        var fileOptional = fileRepository.findById(id);
-//        if (fileOptional.isPresent()) {
-//            deleteFile(fileOptional.get().getPath());
-//            fileRepository.delete(id);
-//        }
-//    }
 
     @Override
     public void deleteByPostId(int postId) {

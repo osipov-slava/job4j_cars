@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.CarDto;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
-import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.File;
 import ru.job4j.cars.service.CarService;
 import ru.job4j.cars.service.FileService;
@@ -118,4 +117,5 @@ public class PostController {
         }
         return "redirect:/posts";
     }
+
 }

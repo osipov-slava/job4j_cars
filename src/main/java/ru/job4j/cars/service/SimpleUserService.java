@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.UserDto;
 import ru.job4j.cars.mapstruct.UserMapper;
 import ru.job4j.cars.model.Owner;
-import ru.job4j.cars.model.User;
 import ru.job4j.cars.repository.HbnOwnerRepository;
 import ru.job4j.cars.repository.HbnUserRepository;
 

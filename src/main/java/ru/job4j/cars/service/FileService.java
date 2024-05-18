@@ -16,12 +16,10 @@ public interface FileService {
 
     List<Integer> getFileIdsByPostId(int postId);
 
-//    void deleteById(int id);
-
     void deleteByPostId(int postId);
 
     List<File> createFilesFromMultipartFiles(MultipartFile[] multipartFiles);
 
-    List<File> updateFilesFromMultipartFiles(MultipartFile[] multipartFiles, PostDto postDto);
+    void updateFilesFromMultipartFiles(MultipartFile[] multipartFiles, PostDto postDto);
 
 }

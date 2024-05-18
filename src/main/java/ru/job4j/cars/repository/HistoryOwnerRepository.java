@@ -16,4 +16,5 @@ public interface HistoryOwnerRepository {
     boolean update(HistoryOwner historyOwner);
 
     boolean delete(int historyOwnerId);
+
 }

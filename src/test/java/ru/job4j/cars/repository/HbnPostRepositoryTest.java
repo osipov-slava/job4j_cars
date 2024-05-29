@@ -179,6 +179,32 @@ public class HbnPostRepositoryTest {
     }
 
     @Test
+    public void whenAddPostsThenGetActive() {
+        var post = initPostNoCommit();
+        postRepository.create(post);
+
+        var post2 = initPost2NoCommit(post);
+        postRepository.create(post2);
+
+        var expected = Arrays.asList(post);
+        List<Post> actual = postRepository.findActive();
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void whenAddPostsThenGetInactive() {
+        var post = initPostNoCommit();
+        postRepository.create(post);
+
+        var post2 = initPost2NoCommit(post);
+        postRepository.create(post2);
+
+        var expected = Arrays.asList(post2);
+        List<Post> actual = postRepository.findInactive();
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
     public void testFindAllForLastDay() {
         var post = initPostNoCommit();
         postRepository.create(post);

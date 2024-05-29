@@ -59,6 +59,20 @@ public class HbnCarRepositoryTest {
         return owner;
     }
 
+    private Owner initOwner2() {
+        var user = new User();
+        user.setLogin("user2");
+        user.setPassword("password");
+        user.setEmail("other@gmail.com");
+        userRepository.create(user);
+
+        var owner = new Owner();
+        owner.setUser(user);
+        owner.setName("Kate");
+        ownerRepository.create(owner);
+        return owner;
+    }
+
     private Car initCar() {
         var engine = new Engine();
         engine.setName("v4 120HP");
@@ -71,6 +85,22 @@ public class HbnCarRepositoryTest {
         List<Color> colors = colorRepository.findAll();
         car.setType(types.get(0));
         car.setColor(colors.get(0));
+        carRepository.create(car);
+        return car;
+    }
+
+    private Car initCar2WithSameOwner(Owner owner) {
+        var engine = new Engine();
+        engine.setName("Hybrid");
+
+        var car = new Car();
+        car.setName("Toyota Prius");
+        car.setEngine(engine);
+        car.setOwner(owner);
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car.setType(types.get(1));
+        car.setColor(colors.get(1));
         carRepository.create(car);
         return car;
     }
@@ -123,20 +153,33 @@ public class HbnCarRepositoryTest {
     public void whenAddCarsThenGetAllCars() {
         Car car = initCar();
 
-        var engine2 = new Engine();
-        engine2.setName("v4 150HP");
-        var car2 = new Car();
-        car2.setName("Toyota Prius");
-        car2.setEngine(engine2);
-        car2.setOwner(car.getOwner());
-        List<Type> types = typeRepository.findAll();
-        List<Color> colors = colorRepository.findAll();
-        car2.setType(types.get(1));
-        car2.setColor(colors.get(2));
-        carRepository.create(car2);
+        Car car2 = initCar2WithSameOwner(car.getOwner());
 
         var expected = Arrays.asList(car, car2);
         List<Car> actual = carRepository.findAll();
+        assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
+    }
+
+    @Test
+    public void whenFindAllByOwner() {
+        Car car = initCar();
+
+        Car car2 = initCar2WithSameOwner(car.getOwner());
+
+        var engine3 = new Engine();
+        engine3.setName("v6");
+        var car3 = new Car();
+        car3.setName("Toyota Crown");
+        car3.setEngine(engine3);
+        car3.setOwner(initOwner2());
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car3.setType(types.get(1));
+        car3.setColor(colors.get(2));
+        carRepository.create(car3);
+
+        var expected = Arrays.asList(car, car2);
+        List<Car> actual = carRepository.findAllByOwnerId(car.getOwner().getId());
         assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
     }
 

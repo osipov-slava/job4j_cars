@@ -4,10 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.job4j.cars.model.Car;
-import ru.job4j.cars.model.Engine;
-import ru.job4j.cars.model.Owner;
-import ru.job4j.cars.model.User;
+import ru.job4j.cars.model.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +22,12 @@ public class HbnCarRepositoryTest {
 
     @Autowired
     private HbnCarRepository carRepository;
+
+    @Autowired
+    private HbnColorRepository colorRepository;
+
+    @Autowired
+    private HbnTypeRepository typeRepository;
 
     @AfterEach
     public void clearTables() {
@@ -59,10 +62,15 @@ public class HbnCarRepositoryTest {
     private Car initCar() {
         var engine = new Engine();
         engine.setName("v4 120HP");
+
         var car = new Car();
         car.setName("Toyota Corolla");
         car.setEngine(engine);
         car.setOwner(initOwner());
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car.setType(types.get(0));
+        car.setColor(colors.get(0));
         carRepository.create(car);
         return car;
     }
@@ -121,6 +129,10 @@ public class HbnCarRepositoryTest {
         car2.setName("Toyota Prius");
         car2.setEngine(engine2);
         car2.setOwner(car.getOwner());
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car2.setType(types.get(1));
+        car2.setColor(colors.get(2));
         carRepository.create(car2);
 
         var expected = Arrays.asList(car, car2);

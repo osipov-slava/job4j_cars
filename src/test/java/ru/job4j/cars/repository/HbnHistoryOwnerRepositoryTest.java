@@ -27,6 +27,12 @@ public class HbnHistoryOwnerRepositoryTest {
     @Autowired
     private HbnHistoryOwnerRepository historyOwnerRepository;
 
+    @Autowired
+    private HbnColorRepository colorRepository;
+
+    @Autowired
+    private HbnTypeRepository typeRepository;
+
     @AfterEach
     public void clearTables() {
         var ownerHistories = historyOwnerRepository.findAllOrderById();
@@ -78,10 +84,15 @@ public class HbnHistoryOwnerRepositoryTest {
     private Car initCar(Owner owner) {
         var engine = new Engine();
         engine.setName("v4 120HP");
+
         var car = new Car();
         car.setName("Toyota Corolla");
         car.setEngine(engine);
         car.setOwner(owner);
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car.setType(types.get(0));
+        car.setColor(colors.get(0));
         carRepository.create(car);
         return car;
     }

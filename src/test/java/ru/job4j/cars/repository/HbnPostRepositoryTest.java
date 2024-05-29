@@ -30,6 +30,12 @@ public class HbnPostRepositoryTest {
     @Autowired
     private HbnFileRepository fileRepository;
 
+    @Autowired
+    private HbnColorRepository colorRepository;
+
+    @Autowired
+    private HbnTypeRepository typeRepository;
+
     @AfterEach
     public void clearTables() {
         var files = fileRepository.findAllOrderById();
@@ -38,7 +44,7 @@ public class HbnPostRepositoryTest {
         }
         var posts = postRepository.findAllOrderById();
         for (var post : posts) {
-            postRepository.delete(post.getId());
+            postRepository.delete(post.getId(), post.getUser());
         }
         var cars = carRepository.findAll();
         for (var car : cars) {
@@ -71,10 +77,15 @@ public class HbnPostRepositoryTest {
 
         var engine = new Engine();
         engine.setName("v4 120HP");
+
         var car = new Car();
         car.setName("Toyota Corolla");
         car.setEngine(engine);
         car.setOwner(owner);
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car.setType(types.get(0));
+        car.setColor(colors.get(0));
         carRepository.create(car);
         return car;
     }
@@ -87,6 +98,7 @@ public class HbnPostRepositoryTest {
         post.setCreated(LocalDateTime.now());
         post.setUser(user);
         post.setCar(car);
+        post.setIsActive(true);
         return post;
     }
 
@@ -96,6 +108,7 @@ public class HbnPostRepositoryTest {
         post2.setCreated(LocalDateTime.now());
         post2.setUser(post.getUser());
         post2.setCar(post.getCar());
+        post2.setIsActive(false);
         return post2;
     }
 
@@ -103,8 +116,8 @@ public class HbnPostRepositoryTest {
     public void whenAddNewPostThenFindSamePost() {
         var post = initPostNoCommit();
         var files = List.of(
-                new File(0, "directory/", "filename1"),
-                new File(0, "directory/", "filename2"));
+                new File(0, "directory/", "filename1", post),
+                new File(0, "directory/", "filename2", post));
         post.setFiles(files);
         postRepository.create(post);
 
@@ -118,7 +131,7 @@ public class HbnPostRepositoryTest {
         postRepository.create(post);
 
         post.setDescription("post2");
-        boolean result = postRepository.update(post);
+        boolean result = postRepository.update(post, post.getUser());
         assertThat(result).isTrue();
 
         Post updated = postRepository.findById(post.getId()).get();
@@ -127,8 +140,9 @@ public class HbnPostRepositoryTest {
 
     @Test
     public void whenUpdateUnknownPostThenReturnFalse() {
+        var user = initUser();
         Post post = new Post();
-        boolean result = postRepository.update(post);
+        boolean result = postRepository.update(post, user);
         assertThat(result).isFalse();
     }
 
@@ -137,7 +151,7 @@ public class HbnPostRepositoryTest {
         var post = initPostNoCommit();
         postRepository.create(post);
 
-        boolean result = postRepository.delete(post.getId());
+        boolean result = postRepository.delete(post.getId(), post.getUser());
         assertThat(result).isTrue();
 
         var optional = postRepository.findById(post.getId());
@@ -146,21 +160,22 @@ public class HbnPostRepositoryTest {
 
     @Test
     public void whenDeleteUnknownPostThenReturnFalse() {
-        boolean result = postRepository.delete(1);
+        var user = initUser();
+        boolean result = postRepository.delete(1, user);
         assertThat(result).isFalse();
     }
 
     @Test
-    public void whenAddCarsThenGetAllCars() {
+    public void whenAddPostsThenGetAllPosts() {
         var post = initPostNoCommit();
         postRepository.create(post);
 
         var post2 = initPost2NoCommit(post);
         postRepository.create(post2);
 
-        var expected = Arrays.asList(post, post2);
+        var expected = Arrays.asList(post2, post);
         List<Post> actual = postRepository.findAllOrderById();
-        assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -178,7 +193,7 @@ public class HbnPostRepositoryTest {
     }
 
     @Test
-    public void testFindAllCarModelLike() {
+    public void testFindAllPostsWithCarModelLike() {
         var post = initPostNoCommit();
         postRepository.create(post);
 
@@ -201,8 +216,8 @@ public class HbnPostRepositoryTest {
 
         var post2 = initPost2NoCommit(post);
         var files = List.of(
-                new File(0, "directory/", "filename1"),
-                new File(0, "directory/", "filename2"));
+                new File(0, "directory/", "filename1", post2),
+                new File(0, "directory/", "filename2", post2));
         post2.setFiles(files);
         postRepository.create(post2);
 

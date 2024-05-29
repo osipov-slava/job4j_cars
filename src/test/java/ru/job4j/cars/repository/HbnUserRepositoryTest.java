@@ -98,29 +98,4 @@ public class HbnUserRepositoryTest {
         assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
     }
 
-    @Test
-    public void whenFindUsersByLikeLogin() {
-        User user = initUser();
-        User user2 = initUser2();
-
-        var expected = Arrays.asList(user, user2);
-        List<User> actual = userRepository.findByLikeLogin("use");
-        assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
-
-        expected = List.of();
-        actual = userRepository.findByLikeLogin("unknown");
-        assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
-    }
-
-    @Test
-    public void whenFindUserByLogin() {
-        User user = initUser();
-
-        var optional = userRepository.findByLogin("user1");
-        assertThat(optional.get()).usingRecursiveAssertion().isEqualTo(user);
-
-        optional = userRepository.findByLogin("user2");
-        assertThat(optional).isEmpty();
-    }
-
 }

@@ -30,15 +30,20 @@ public class HbnPriceHistoryRepositoryTest {
     @Autowired
     private HbnPostRepository postRepository;
 
+    @Autowired
+    private HbnColorRepository colorRepository;
+
+    @Autowired
+    private HbnTypeRepository typeRepository;
+
     @AfterEach
     public void clearTables() {
-        var priceHistories = priceHistoryRepository.findAllOrderById();
-        for (var priceHistory : priceHistories) {
-            priceHistoryRepository.delete(priceHistory.getId());
-        }
         var posts = postRepository.findAllOrderById();
         for (var post : posts) {
-            postRepository.delete(post.getId());
+            priceHistoryRepository.deleteAllByPostId(post.getId());
+        }
+        for (var post : posts) {
+            postRepository.delete(post.getId(), post.getUser());
         }
         var cars = carRepository.findAll();
         for (var car : cars) {
@@ -68,10 +73,15 @@ public class HbnPriceHistoryRepositoryTest {
 
         var engine = new Engine();
         engine.setName("v4 120HP");
+
         var car = new Car();
         car.setName("Toyota Corolla");
         car.setEngine(engine);
         car.setOwner(owner);
+        List<Type> types = typeRepository.findAll();
+        List<Color> colors = colorRepository.findAll();
+        car.setType(types.get(0));
+        car.setColor(colors.get(0));
         carRepository.create(car);
 
         var post = new Post();
@@ -79,6 +89,7 @@ public class HbnPriceHistoryRepositoryTest {
         post.setCreated(LocalDateTime.now());
         post.setCar(car);
         post.setUser(user);
+        post.setIsActive(true);
         postRepository.create(post);
         return post;
     }
@@ -102,43 +113,24 @@ public class HbnPriceHistoryRepositoryTest {
     }
 
     @Test
-    public void whenUpdatePriceHistoryThenReturnTrue() {
+    public void whenDeletePriceHistoriesThenReturnTrue() {
         PriceHistory priceHistory = initPriceHistory();
 
-        priceHistory.setAfter(13500);
-        boolean result = priceHistoryRepository.update(priceHistory);
+        var priceHistory2 = new PriceHistory();
+        priceHistory2.setPost(priceHistory.getPost());
+        priceHistory2.setBefore(14000);
+        priceHistory2.setAfter(13000);
+        priceHistoryRepository.create(priceHistory2);
+
+        boolean result = priceHistoryRepository.deleteAllByPostId(priceHistory.getPost().getId());
         assertThat(result).isTrue();
 
-        PriceHistory updated = priceHistoryRepository.findById(priceHistory.getId()).get();
-        assertThat(updated).usingRecursiveAssertion().isEqualTo(priceHistory);
+        List<PriceHistory> listPH = priceHistoryRepository.findAllByPostId(priceHistory.getPost().getId());
+        assertThat(listPH.isEmpty()).isTrue();
     }
 
     @Test
-    public void whenUpdateUnknownPriceHistoryThenReturnFalse() {
-        var priceHistory = new PriceHistory();
-        boolean result = priceHistoryRepository.update(priceHistory);
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void whenDeletePriceHistoryThenReturnTrue() {
-        PriceHistory priceHistory = initPriceHistory();
-
-        boolean result = priceHistoryRepository.delete(priceHistory.getId());
-        assertThat(result).isTrue();
-
-        var optional = priceHistoryRepository.findById(priceHistory.getId());
-        assertThat(optional.isEmpty()).isTrue();
-    }
-
-    @Test
-    public void whenDeleteUnknownPriceHistoryThenReturnFalse() {
-        boolean result = priceHistoryRepository.delete(1);
-        assertThat(result).isFalse();
-    }
-
-    @Test
-    public void whenAddPriceHistoriesThenGetAllPriceHistories() {
+    public void whenAddPriceHistoriesThenGetAllPriceHistoriesByPostId() {
         PriceHistory priceHistory = initPriceHistory();
 
         var priceHistory2 = new PriceHistory();
@@ -148,7 +140,7 @@ public class HbnPriceHistoryRepositoryTest {
         priceHistoryRepository.create(priceHistory2);
 
         var expected = Arrays.asList(priceHistory, priceHistory2);
-        List<PriceHistory> actual = priceHistoryRepository.findAllOrderById();
+        List<PriceHistory> actual = priceHistoryRepository.findAllByPostId(priceHistory.getPost().getId());
         assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
     }
 

@@ -43,7 +43,6 @@ public class SimplePostService implements PostService {
 
     @Override
     public Optional<PostDto> findById(int id, UserDto userDto) {
-        //TODO Упростить или каскадом подтягивать
         Optional<PostDto> optionalPostDto = Optional.empty();
         Optional<Post> optionalPost = postRepository.findById(id);
         if (optionalPost.isEmpty()) {

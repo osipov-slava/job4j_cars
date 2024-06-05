@@ -7,6 +7,8 @@ import ru.job4j.cars.mapstruct.UserMapper;
 import ru.job4j.cars.model.Owner;
 import ru.job4j.cars.repository.HbnOwnerRepository;
 import ru.job4j.cars.repository.HbnUserRepository;
+import ru.job4j.cars.repository.OwnerRepository;
+import ru.job4j.cars.repository.UserRepository;
 
 import java.util.Optional;
 
@@ -14,9 +16,9 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SimpleUserService implements UserService {
 
-    private final HbnUserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private final HbnOwnerRepository ownerRepository;
+    private final OwnerRepository ownerRepository;
 
     private final UserMapper userMapper;
 

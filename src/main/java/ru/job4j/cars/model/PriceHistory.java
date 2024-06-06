@@ -28,8 +28,7 @@ public class PriceHistory {
 
     private long after;
 
-    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"))
-            .truncatedTo(ChronoUnit.SECONDS);
+    private LocalDateTime created;
 
     @ManyToOne
     @JoinColumn(name = "post_id")

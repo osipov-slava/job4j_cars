@@ -11,6 +11,9 @@ import ru.job4j.cars.model.PriceHistory;
 import ru.job4j.cars.repository.PriceHistoryRepository;
 import ru.job4j.cars.util.Utils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +24,12 @@ public class SimplePriceHistoryService implements PriceHistoryService {
 
     private final PriceHistoryRepository priceHistoryRepository;
 
-    private final PriceHistoryMapper priceMapper;
+    private final PriceHistoryMapper priceHistoryMapper;
 
     @Override
     public PriceHistory create(Post post, long price) {
         var priceHistory = new PriceHistory();
+        priceHistory.setCreated(LocalDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS));
         priceHistory.setPost(post);
         priceHistory.setAfter(price);
         return priceHistoryRepository.create(priceHistory);
@@ -44,12 +48,12 @@ public class SimplePriceHistoryService implements PriceHistoryService {
     @Override
     public List<PriceHistoryDto> findAllByPostId(int postId, UserDto userDto) {
         var priceHistories = priceHistoryRepository.findAllByPostId(postId);
-        List<PriceHistoryDto> priceDtos = new ArrayList<>();
+        List<PriceHistoryDto> priceHistoryDtos = new ArrayList<>();
         for (PriceHistory ph : priceHistories) {
             ph.setCreated(Utils.correctTimeZone(ph.getCreated(), userDto.getTimezone()));
-            priceDtos.add(priceMapper.getModelFromEntity(ph));
+            priceHistoryDtos.add(priceHistoryMapper.getModelFromEntity(ph));
         }
-        return priceDtos;
+        return priceHistoryDtos;
     }
 
     @Override

@@ -73,6 +73,8 @@ public class SimpleCarService implements CarService {
             if (carOptional.get().getOwner().getId() != userDto.getOwnerId()) {
                 return false;
             }
+        } else {
+            return false;
         }
         var engine = new Engine(carDto.getEngineId(), carDto.getEngineName());
         engineRepository.update(engine);

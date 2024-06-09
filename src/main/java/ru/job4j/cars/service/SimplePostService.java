@@ -48,7 +48,8 @@ public class SimplePostService implements PostService {
         if (optionalPost.isEmpty()) {
             return optionalPostDto;
         }
-        var post = Utils.correctTimeZone(optionalPost.get(), userDto.getTimezone());
+        var post = optionalPost.get();
+        post.setCreated(Utils.correctTimeZone(post.getCreated(), userDto.getTimezone()));
 
         Optional<CarDto> optionalCarDto = carService.findById(post.getCar().getId());
         var carDto = optionalCarDto.orElseGet(CarDto::new);
@@ -79,7 +80,7 @@ public class SimplePostService implements PostService {
 
         List<PostDto> postDtos = new ArrayList<>();
         for (Post post : posts) {
-            Utils.correctTimeZone(post, userDto.getTimezone());
+            post.setCreated(Utils.correctTimeZone(post.getCreated(), userDto.getTimezone()));
             postDtos.add(postMapper.getModelFromEntity(post, mapAllCarDtos.get(post.getCar().getId()), mapAllPH.get(post.getId())));
         }
         return postDtos;

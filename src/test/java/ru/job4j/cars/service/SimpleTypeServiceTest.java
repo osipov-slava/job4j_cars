@@ -72,5 +72,5 @@ public class SimpleTypeServiceTest {
 
         assertThat(actual).isFalse();
     }
-    
+
 }

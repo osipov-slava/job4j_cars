@@ -16,6 +16,9 @@ public class Utils {
     }
 
     public static LocalDateTime correctTimeZone(LocalDateTime localDateTime, String userTimezone) {
+        if (localDateTime == null) {
+            return null;
+        }
         var timezone = userTimezone == null ? TimeZone.getDefault().getID() : userTimezone;
         return localDateTime
                 .atZone(ZoneId.of("UTC"))

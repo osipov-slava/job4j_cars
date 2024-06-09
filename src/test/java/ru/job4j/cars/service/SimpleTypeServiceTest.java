@@ -44,7 +44,6 @@ public class SimpleTypeServiceTest {
         var type = initType();
         when(typeRepository.create(type)).thenReturn(type);
         var actual = typeService.create(type);
-
         assertThat(actual).usingRecursiveAssertion().isEqualTo(type);
     }
 
@@ -53,7 +52,6 @@ public class SimpleTypeServiceTest {
         var expected = initListTypes();
         when(typeRepository.findAll()).thenReturn(expected);
         var actual = typeService.findAll();
-
         assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
     }
 
@@ -61,7 +59,6 @@ public class SimpleTypeServiceTest {
     public void whenDeleteTypeThenReturnTrue() {
         when(typeRepository.deleteById(1)).thenReturn(true);
         var actual = typeService.deleteById(1);
-
         assertThat(actual).isTrue();
     }
 
@@ -69,7 +66,6 @@ public class SimpleTypeServiceTest {
     public void whenDeleteUnknownTypeThenReturnFalse() {
         when(typeRepository.deleteById(anyInt())).thenReturn(false);
         var actual = typeService.deleteById(1);
-
         assertThat(actual).isFalse();
     }
 

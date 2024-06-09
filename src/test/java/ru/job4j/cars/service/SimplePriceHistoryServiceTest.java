@@ -70,8 +70,8 @@ public class SimplePriceHistoryServiceTest {
         Post post = initPost();
         PriceHistory priceHistory = new PriceHistory(0, 0, 9000, null, post);
         when(priceHistoryRepository.create(priceHistory)).thenReturn(priceHistory);
-        var actual = priceHistoryService.create(post, 9000);
 
+        var actual = priceHistoryService.create(post, 9000);
         assertThat(actual).isEqualTo(priceHistory);
     }
 
@@ -79,8 +79,8 @@ public class SimplePriceHistoryServiceTest {
     public void whenFindByIdThenSuccessful() {
         PriceHistory priceHistory = initPriceHistory(initPost());
         when(priceHistoryRepository.findById(1)).thenReturn(Optional.of(priceHistory));
-        var actual = priceHistoryService.findById(1);
 
+        var actual = priceHistoryService.findById(1);
         assertThat(actual.isPresent()).isTrue();
         assertThat(actual.get()).usingRecursiveAssertion().isEqualTo(priceHistory);
     }
@@ -89,7 +89,6 @@ public class SimplePriceHistoryServiceTest {
     public void whenFindByIdThenUnsuccessful() {
         when(priceHistoryRepository.findById(1)).thenReturn(Optional.empty());
         var actual = priceHistoryService.findById(1);
-
         assertThat(actual.isEmpty()).isTrue();
     }
 
@@ -100,7 +99,6 @@ public class SimplePriceHistoryServiceTest {
 
         var expected = initPriceHistoryDtos(priceHistories);
         var actual = priceHistoryService.findAllByPostId(1, new UserDto());
-
         assertThat(actual).usingRecursiveFieldByFieldElementComparatorIgnoringFields("created").isEqualTo(expected);
     }
 
@@ -108,8 +106,8 @@ public class SimplePriceHistoryServiceTest {
     public void whenFindAllLastPrice() {
         var priceHistories = initListPriceHistory(initPriceHistory(initPost()));
         when(priceHistoryRepository.findAllLastPrice()).thenReturn(priceHistories);
-        var actual = priceHistoryService.findAllLastPrice();
 
+        var actual = priceHistoryService.findAllLastPrice();
         assertThat(actual).isEqualTo(priceHistories);
     }
 
@@ -121,7 +119,6 @@ public class SimplePriceHistoryServiceTest {
         when(priceHistoryRepository.findById(1)).thenReturn(Optional.of(priceHistory));
 
         var actual = priceHistoryService.update(postDto, 11111);
-
         assertThat(actual).isTrue();
     }
 
@@ -132,7 +129,6 @@ public class SimplePriceHistoryServiceTest {
         when(priceHistoryRepository.findById(1)).thenReturn(Optional.empty());
 
         var actual = priceHistoryService.update(postDto, 11111);
-
         assertThat(actual).isFalse();
     }
 

@@ -46,7 +46,6 @@ public class SimpleColorServiceTest {
         var color = initColor();
         when(colorRepository.create(color)).thenReturn(color);
         var actual = colorService.create(color);
-
         assertThat(actual).usingRecursiveAssertion().isEqualTo(color);
     }
 
@@ -55,7 +54,6 @@ public class SimpleColorServiceTest {
         var expected = initListColors();
         when(colorRepository.findAll()).thenReturn(expected);
         var actual = colorService.findAll();
-
         assertThat(actual).usingRecursiveAssertion().isEqualTo(expected);
     }
 
@@ -63,7 +61,6 @@ public class SimpleColorServiceTest {
     public void whenDeleteColorThenReturnTrue() {
         when(colorRepository.deleteById(1)).thenReturn(true);
         var actual = colorService.deleteById(1);
-
         assertThat(actual).isTrue();
     }
 
@@ -71,7 +68,6 @@ public class SimpleColorServiceTest {
     public void whenDeleteUnknownColorThenReturnFalse() {
         when(colorRepository.deleteById(anyInt())).thenReturn(false);
         var actual = colorService.deleteById(1);
-
         assertThat(actual).isFalse();
     }
 

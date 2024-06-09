@@ -24,8 +24,7 @@ public class Post {
 
     private String description;
 
-    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"))
-            .truncatedTo(ChronoUnit.SECONDS);
+    private LocalDateTime created;
 
     @Column(name = "is_active")
     private Boolean isActive;

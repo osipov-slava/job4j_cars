@@ -73,8 +73,8 @@ public class SimpleUserServiceTest {
 
         when(userRepository.create(user)).thenReturn(user);
         when(ownerRepository.create(owner)).thenReturn(owner);
-        var actual = userService.create(userDto);
 
+        var actual = userService.create(userDto);
         userDto.setId(1);
         userDto.setOwnerId(1);
         assertThat(actual).usingRecursiveAssertion().isEqualTo(userDto);
@@ -90,8 +90,8 @@ public class SimpleUserServiceTest {
                 .thenReturn(Optional.of(user));
         when(ownerRepository.findByUserId(user.getId()))
                 .thenReturn(Optional.of(owner));
-        var actual = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
 
+        var actual = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         userDto.setId(1);
         userDto.setOwnerId(1);
         assertThat(actual.isPresent()).isTrue();
@@ -107,8 +107,8 @@ public class SimpleUserServiceTest {
                 .thenReturn(Optional.empty());
         when(ownerRepository.findByUserId(user.getId()))
                 .thenReturn(Optional.of(owner));
-        var actual = userService.findByEmailAndPassword("wrong@email.com", "password");
 
+        var actual = userService.findByEmailAndPassword("wrong@email.com", "password");
         assertThat(actual.isEmpty()).isTrue();
     }
 

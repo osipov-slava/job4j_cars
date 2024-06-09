@@ -85,8 +85,8 @@ public class SimpleCarServiceTest {
         Car car = initCar();
         CarDto carDto = carMapper.getModelFromEntity(car);
         when(carRepository.create(car)).thenReturn(car);
-        var actual = carService.create(carDto);
 
+        var actual = carService.create(carDto);
         assertThat(actual).usingRecursiveAssertion().isEqualTo(carDto);
     }
 
@@ -95,8 +95,8 @@ public class SimpleCarServiceTest {
         Car car = initCar();
         CarDto carDto = carMapper.getModelFromEntity(car);
         when(carRepository.findById(1)).thenReturn(Optional.of(car));
-        var actual = carService.findById(1);
 
+        var actual = carService.findById(1);
         assertThat(actual.isPresent()).isTrue();
         assertThat(actual.get()).usingRecursiveAssertion().isEqualTo(carDto);
     }
@@ -105,7 +105,6 @@ public class SimpleCarServiceTest {
     public void whenFindByIdThenUnsuccessful() {
         when(carRepository.findById(1)).thenReturn(Optional.empty());
         var actual = carService.findById(1);
-
         assertThat(actual.isEmpty()).isTrue();
     }
 
@@ -115,8 +114,8 @@ public class SimpleCarServiceTest {
         List<CarDto> carDtos = initCarDtos(cars);
 
         when(carRepository.findAll()).thenReturn(cars);
-        var actual = carService.findAll();
 
+        var actual = carService.findAll();
         assertThat(actual).usingRecursiveAssertion().isEqualTo(carDtos);
     }
 
@@ -129,8 +128,8 @@ public class SimpleCarServiceTest {
         userDto.setOwnerId(cars.get(0).getOwner().getId());
 
         when(carRepository.findAllByOwnerId(userDto.getOwnerId())).thenReturn(cars);
-        var actual = carService.findAllByUser(userDto);
 
+        var actual = carService.findAllByUser(userDto);
         assertThat(actual).usingRecursiveAssertion().isEqualTo(carDtos);
     }
 
@@ -159,7 +158,6 @@ public class SimpleCarServiceTest {
         when(carRepository.update(carNew)).thenReturn(true);
 
         var actual = carService.update(carDtoNew, userDto);
-
         assertThat(actual).isTrue();
     }
 
@@ -177,7 +175,6 @@ public class SimpleCarServiceTest {
         when(carRepository.findById(carOld.getId())).thenReturn(Optional.empty());
 
         var actual = carService.update(carDtoNew, userDto);
-
         assertThat(actual).isFalse();
     }
 
@@ -195,7 +192,6 @@ public class SimpleCarServiceTest {
         when(carRepository.update(carNew)).thenReturn(true);
 
         var actual = carService.update(carDtoNew, userDto);
-
         assertThat(actual).isFalse();
     }
 
@@ -204,8 +200,8 @@ public class SimpleCarServiceTest {
         UserDto userDto = new UserDto();
         userDto.setOwnerId(1);
         when(carRepository.delete(1, userDto.getOwnerId())).thenReturn(true);
-        var actual = carService.deleteById(1, userDto);
 
+        var actual = carService.deleteById(1, userDto);
         assertThat(actual).isTrue();
     }
 
@@ -214,8 +210,8 @@ public class SimpleCarServiceTest {
         UserDto userDto = new UserDto();
         userDto.setOwnerId(1);
         when(carRepository.delete(anyInt(), anyInt())).thenReturn(false);
-        var actual = carService.deleteById(1, userDto);
 
+        var actual = carService.deleteById(1, userDto);
         assertThat(actual).isFalse();
     }
 

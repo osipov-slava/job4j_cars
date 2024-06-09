@@ -55,7 +55,7 @@ public class PostController {
                          Model model) {
         List<File> files = fileService.createFilesFromMultipartFiles(multipartFiles);
 
-        var idCreatedPost = postService.create(postDto, userDto, carDto, files).getId();
+        var idCreatedPost = postService.create(postDto, carDto, files).getId();
         if (idCreatedPost == 0) {
             model.addAttribute("message", "Creation post was unsuccessful!");
             return "errors/404";

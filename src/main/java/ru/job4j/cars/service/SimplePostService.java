@@ -13,6 +13,9 @@ import ru.job4j.cars.model.PriceHistory;
 import ru.job4j.cars.repository.PostRepository;
 import ru.job4j.cars.util.Utils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,8 +36,10 @@ public class SimplePostService implements PostService {
     private final UserMapper userMapper;
 
     @Override
-    public PostDto create(PostDto postDto, UserDto userDto, CarDto carDto, List<File> files) {
+    public PostDto create(PostDto postDto, CarDto carDto, List<File> files) {
         Post post = postMapper.getEntityFromDto(postDto);
+        post.setCreated(LocalDateTime.now(ZoneId.of("UTC"))
+                .truncatedTo(ChronoUnit.SECONDS));
         post.setFiles(files);
         post = postRepository.create(post);
         var priceHistory = priceHistoryService.create(post, postDto.getPrice());

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface PostService {
 
-    PostDto create(PostDto task, UserDto userDto, CarDto carDto, List<File> files);
+    PostDto create(PostDto task, CarDto carDto, List<File> files);
 
     Optional<PostDto> findById(int id, UserDto userDto);
 

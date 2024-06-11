@@ -44,13 +44,13 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUserDto(@ModelAttribute UserDto userDto, Model model, HttpServletRequest request) {
-        var userOptional = userService.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
-        if (userOptional.isEmpty()) {
+        var userDtoOptional = userService.findByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
+        if (userDtoOptional.isEmpty()) {
             model.addAttribute("error", "Wrong email or password");
             return "users/login";
         }
         var session = request.getSession();
-        session.setAttribute("userDto", userOptional.get());
+        session.setAttribute("userDto", userDtoOptional.get());
         return "redirect:/posts";
     }
 

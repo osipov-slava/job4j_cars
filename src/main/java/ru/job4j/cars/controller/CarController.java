@@ -47,23 +47,23 @@ public class CarController {
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id) {
-        var taskOptional = carService.findById(id);
-        if (taskOptional.isEmpty()) {
+        var carOptional = carService.findById(id);
+        if (carOptional.isEmpty()) {
             model.addAttribute("message", "CarDto with this Id not found!");
             return "errors/404";
         }
-        model.addAttribute("carDto", taskOptional.get());
+        model.addAttribute("carDto", carOptional.get());
         return "cars/one";
     }
 
     @GetMapping("update/{id}")
-    public String editById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
-        var optional = carService.findById(id);
-        if (optional.isEmpty()) {
+    public String editById(Model model, @PathVariable int id) {
+        var carOptional = carService.findById(id);
+        if (carOptional.isEmpty()) {
             model.addAttribute("message", "CarDto with this Id not found!");
             return "errors/404";
         }
-        model.addAttribute("carDto", optional.get());
+        model.addAttribute("carDto", carOptional.get());
         model.addAttribute("colors", colorService.findAll());
         model.addAttribute("types", typeService.findAll());
         return "cars/edit";

@@ -39,7 +39,7 @@ public class CarController {
     public String create(@ModelAttribute CarDto carDto, Model model, @SessionAttribute UserDto userDto) {
         carDto.setOwnerId(userDto.getOwnerId());
         if (carService.create(carDto).getId() == 0) {
-            model.addAttribute("message", "Creation carDto was unsuccessful!");
+            model.addAttribute("message", "Creation Car was unsuccessful!");
             return "errors/404";
         }
         return "redirect:/cars";
@@ -49,7 +49,7 @@ public class CarController {
     public String getById(Model model, @PathVariable int id) {
         var carOptional = carService.findById(id);
         if (carOptional.isEmpty()) {
-            model.addAttribute("message", "CarDto with this Id not found!");
+            model.addAttribute("message", "Car with this Id not found!");
             return "errors/404";
         }
         model.addAttribute("carDto", carOptional.get());
@@ -60,7 +60,7 @@ public class CarController {
     public String editById(Model model, @PathVariable int id) {
         var carOptional = carService.findById(id);
         if (carOptional.isEmpty()) {
-            model.addAttribute("message", "CarDto with this Id not found!");
+            model.addAttribute("message", "Car with this Id not found!");
             return "errors/404";
         }
         model.addAttribute("carDto", carOptional.get());
@@ -74,7 +74,7 @@ public class CarController {
                          @SessionAttribute UserDto userDto,
                          Model model) {
         if (!carService.update(carDto, userDto)) {
-            model.addAttribute("message", "Update carDto was unsuccessful!");
+            model.addAttribute("message", "Update Car was unsuccessful!");
             return "errors/404";
         }
         return "redirect:/cars";
@@ -84,7 +84,7 @@ public class CarController {
     public String delete(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
         var isDeleted = carService.deleteById(id, userDto);
         if (!isDeleted) {
-            model.addAttribute("message", "CarDto with this Id not found!");
+            model.addAttribute("message", "Car with this Id not found!");
             return "errors/404";
         }
         return "redirect:/cars";

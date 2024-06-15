@@ -135,7 +135,7 @@ public class CarControllerTest {
         var model = new ConcurrentModel();
         var view = carController.create(carDto, model, userDto);
         var actualMessage = model.getAttribute("message");
-        var expectedMessage = "Creation carDto was unsuccessful!";
+        var expectedMessage = "Creation Car was unsuccessful!";
 
         assertThat(view).isEqualTo("errors/404");
         assertThat(actualMessage).isEqualTo(expectedMessage);
@@ -160,7 +160,7 @@ public class CarControllerTest {
 
         var model = new ConcurrentModel();
         var view = carController.getById(model, 2);
-        var expectedMessage = "CarDto with this Id not found!";
+        var expectedMessage = "Car with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
         assertThat(view).isEqualTo("errors/404");
@@ -195,7 +195,7 @@ public class CarControllerTest {
 
         var model = new ConcurrentModel();
         var view = carController.editById(model, 2);
-        var expectedMessage = "CarDto with this Id not found!";
+        var expectedMessage = "Car with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
         assertThat(view).isEqualTo("errors/404");
@@ -222,7 +222,7 @@ public class CarControllerTest {
 
         var model = new ConcurrentModel();
         var view = carController.update(carDto, userDto, model);
-        var expectedMessage = "Update carDto was unsuccessful!";
+        var expectedMessage = "Update Car was unsuccessful!";
         var actualMessage = model.getAttribute("message");
 
         assertThat(view).isEqualTo("errors/404");
@@ -247,10 +247,11 @@ public class CarControllerTest {
 
         var model = new ConcurrentModel();
         var view = carController.delete(model, 2, userDto);
-        var expectedMessage = "CarDto with this Id not found!";
+        var expectedMessage = "Car with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
         assertThat(view).isEqualTo("errors/404");
         assertThat(actualMessage).isEqualTo(expectedMessage);
     }
+
 }

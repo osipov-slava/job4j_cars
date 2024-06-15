@@ -50,7 +50,6 @@ public class PostController {
     @PostMapping("/create")
     public String create(@ModelAttribute PostDto postDto,
                          @ModelAttribute CarDto carDto,
-                         @SessionAttribute UserDto userDto,
                          @RequestParam MultipartFile[] multipartFiles,
                          Model model) {
         List<File> files = fileService.createFilesFromMultipartFiles(multipartFiles);

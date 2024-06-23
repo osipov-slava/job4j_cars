@@ -17,15 +17,11 @@ public interface PriceHistoryService {
 
     Optional<PriceHistory> findLastByPostId(int postId);
 
-//    List<PriceHistory> findAll();
-
     List<PriceHistoryDto> findAllByPostId(int postId, UserDto userDto);
 
     List<PriceHistory> findAllLastPrice();
 
     boolean update(PostDto postDto, long price);
-
-//    boolean deleteById(int id);
 
     boolean deleteAllByPostId(int postId);
 

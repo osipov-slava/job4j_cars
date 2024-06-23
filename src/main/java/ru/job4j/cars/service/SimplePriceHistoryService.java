@@ -68,6 +68,7 @@ public class SimplePriceHistoryService implements PriceHistoryService {
         post.setId(postDto.getId());
         var optionalPH = priceHistoryRepository.findById(postDto.getPriceHistoryId());
         if (optionalPH.isPresent() && optionalPH.get().getAfter() != price) {
+            priceHistory.setCreated(LocalDateTime.now(ZoneId.of("UTC")).truncatedTo(ChronoUnit.SECONDS));
             priceHistory.setBefore(optionalPH.get().getAfter());
             priceHistory.setPost(post);
             priceHistory.setAfter(price);

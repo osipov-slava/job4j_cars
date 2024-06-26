@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PostDto {
 
-    private int id;
+    private Long id;
 
     private String description;
 
@@ -13,16 +13,16 @@ public class PostDto {
 
     private Boolean isActive = false;
 
-    private int carId;
+    private Long carId;
 
     private String carName;
 
-    private int userId;
+    private Long userId;
 
     private String ownerName;
 
     private long price;
 
-    private int priceHistoryId;
+    private Long priceHistoryId;
 
 }

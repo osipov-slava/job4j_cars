@@ -116,8 +116,8 @@ public class HbnPostRepositoryTest {
     public void whenAddNewPostThenFindSamePost() {
         var post = initPostNoCommit();
         var files = List.of(
-                new File(0, "directory/", "filename1", post),
-                new File(0, "directory/", "filename2", post));
+                new File(null, "directory/", "filename1", post),
+                new File(null, "directory/", "filename2", post));
         post.setFiles(files);
         postRepository.create(post);
 
@@ -161,7 +161,7 @@ public class HbnPostRepositoryTest {
     @Test
     public void whenDeleteUnknownPostThenReturnFalse() {
         var user = initUser();
-        boolean result = postRepository.delete(1, user);
+        boolean result = postRepository.delete(1L, user);
         assertThat(result).isFalse();
     }
 
@@ -242,8 +242,8 @@ public class HbnPostRepositoryTest {
 
         var post2 = initPost2NoCommit(post);
         var files = List.of(
-                new File(0, "directory/", "filename1", post2),
-                new File(0, "directory/", "filename2", post2));
+                new File(null, "directory/", "filename1", post2),
+                new File(null, "directory/", "filename2", post2));
         post2.setFiles(files);
         postRepository.create(post2);
 

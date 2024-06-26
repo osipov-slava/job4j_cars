@@ -39,7 +39,7 @@ public class HbnPostRepository implements PostRepository {
                 order by p.id desc""", Post.class);
     }
 
-    public Optional<Post> findById(int postId) {
+    public Optional<Post> findById(Long postId) {
         return crudRepository.optional("""
                         select distinct p
                         from Post p
@@ -149,12 +149,12 @@ public class HbnPostRepository implements PostRepository {
                             "user", user));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update Post was unsuccessful", e);
         }
         return false;
     }
 
-    public boolean delete(int postId, User user) {
+    public boolean delete(Long postId, User user) {
         try {
             var result = crudRepository.run("""
                             delete from Post
@@ -164,7 +164,7 @@ public class HbnPostRepository implements PostRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete Post was unsuccessful", e);
         }
         return false;
     }

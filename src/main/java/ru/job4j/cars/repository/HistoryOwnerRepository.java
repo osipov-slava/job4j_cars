@@ -11,10 +11,10 @@ public interface HistoryOwnerRepository {
 
     List<HistoryOwner> findAllOrderById();
 
-    Optional<HistoryOwner> findById(int historyOwnerId);
+    Optional<HistoryOwner> findById(Long historyOwnerId);
 
     boolean update(HistoryOwner historyOwner);
 
-    boolean delete(int historyOwnerId);
+    boolean delete(Long historyOwnerId);
 
 }

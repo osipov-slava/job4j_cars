@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -59,15 +58,15 @@ public class SimplePostServiceTest {
 
     private UserDto initUserDto() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setId(1L);
         return userDto;
     }
 
     private CarDto initCarDto(UserDto userDto) {
         CarDto carDto = new CarDto();
-        carDto.setId(1);
+        carDto.setId(1L);
         carDto.setName("Toyota Corolla");
-        carDto.setOwnerId(1);
+        carDto.setOwnerId(1L);
         carDto.setOwnerName(userDto.getName());
         return carDto;
     }
@@ -75,13 +74,13 @@ public class SimplePostServiceTest {
     private List<CarDto> initCarDtos(UserDto userDto) {
         CarDto carDto = initCarDto(userDto);
         CarDto carDto2 = initCarDto(userDto);
-        carDto2.setId(2);
+        carDto2.setId(2L);
         return List.of(carDto, carDto2);
     }
 
     private PostDto initPostDto(CarDto carDto, UserDto userDto) {
         PostDto postDto = new PostDto();
-        postDto.setId(1);
+        postDto.setId(1L);
         postDto.setDescription("new post");
         postDto.setIsActive(true);
         postDto.setCarId(carDto.getId());
@@ -89,7 +88,7 @@ public class SimplePostServiceTest {
         postDto.setUserId(userDto.getId());
         postDto.setOwnerName(carDto.getOwnerName());
         postDto.setPrice(20000);
-        postDto.setPriceHistoryId(1);
+        postDto.setPriceHistoryId(1L);
         return postDto;
     }
 
@@ -101,8 +100,8 @@ public class SimplePostServiceTest {
         List<PostDto> postDtos = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             PostDto postDto = initPostDto(carDtos.get(0), userDto);
-            postDto.setId(i + 1);
-            postDto.setPriceHistoryId(i + 1);
+            postDto.setId(1L + i);
+            postDto.setPriceHistoryId(1L + i);
             postDtos.add(postDto);
         }
         postDtos.get(1).setIsActive(false);
@@ -117,8 +116,8 @@ public class SimplePostServiceTest {
 
         }
         posts.get(2).setFiles(new ArrayList<>());
-        File file1 = new File(1, "/path", "file1", posts.get(2));
-        File file2 = new File(2, "/path", "file2", posts.get(2));
+        File file1 = new File(1L, "/path", "file1", posts.get(2));
+        File file2 = new File(2L, "/path", "file2", posts.get(2));
         posts.get(2).getFiles().add(file1);
         posts.get(2).getFiles().add(file2);
         return posts;
@@ -182,9 +181,9 @@ public class SimplePostServiceTest {
 
     @Test
     public void whenFindByIdThenUnsuccessful() {
-        when(postRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(postRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        var actual = carService.findById(1);
+        var actual = carService.findById(1L);
         assertThat(actual.isEmpty()).isTrue();
     }
 
@@ -281,11 +280,11 @@ public class SimplePostServiceTest {
     public void whenDeleteThenSuccessful() {
         UserDto userDto = initUserDto();
 
-        when(postRepository.delete(1, userMapper.getEntityFromDto(userDto)))
+        when(postRepository.delete(1L, userMapper.getEntityFromDto(userDto)))
                 .thenReturn(true);
-        when(priceHistoryService.deleteAllByPostId(1)).thenReturn(true);
+        when(priceHistoryService.deleteAllByPostId(1L)).thenReturn(true);
 
-        var actual = postService.deleteById(1, userDto);
+        var actual = postService.deleteById(1L, userDto);
         assertThat(actual).isTrue();
     }
 
@@ -293,11 +292,11 @@ public class SimplePostServiceTest {
     public void whenDeleteThenUnsuccessful() {
         UserDto userDto = initUserDto();
 
-        when(postRepository.delete(1, userMapper.getEntityFromDto(userDto)))
+        when(postRepository.delete(1L, userMapper.getEntityFromDto(userDto)))
                 .thenReturn(false);
-        when(priceHistoryService.deleteAllByPostId(1)).thenReturn(true);
+        when(priceHistoryService.deleteAllByPostId(1L)).thenReturn(true);
 
-        var actual = postService.deleteById(1, userDto);
+        var actual = postService.deleteById(1L, userDto);
         assertThat(actual).isFalse();
     }
 

@@ -15,7 +15,7 @@ public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Include
-    private int id;
+    private Integer id;
 
     private String name;
 

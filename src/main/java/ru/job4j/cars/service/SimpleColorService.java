@@ -24,7 +24,7 @@ public class SimpleColorService implements ColorService {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Integer id) {
         return colorRepository.deleteById(id);
     }
 

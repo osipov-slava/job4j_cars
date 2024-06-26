@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,19 +40,19 @@ public class CarControllerTest {
 
     private UserDto initUserDto() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setId(1L);
         userDto.setTimezone("UTC");
         userDto.setName("User Name");
         userDto.setPassword("password");
         userDto.setEmail("mail@mail.com");
         userDto.setLogin("user");
-        userDto.setOwnerId(2);
+        userDto.setOwnerId(2L);
         return userDto;
     }
 
     private CarDto initCarDto() {
         CarDto carDto = new CarDto();
-        carDto.setId(1);
+        carDto.setId(1L);
         carDto.setName("Toyota Corolla");
         carDto.setEngineName("v4 120HP");
         carDto.setColor("Black");
@@ -61,7 +62,7 @@ public class CarControllerTest {
 
     private List<CarDto> initCarDtos() {
         List<CarDto> carDtos = List.of(initCarDto(), initCarDto());
-        carDtos.get(1).setId(2);
+        carDtos.get(1).setId(2L);
         return carDtos;
     }
 
@@ -129,7 +130,7 @@ public class CarControllerTest {
     public void whenPostCreateThenUnsuccessfulReturnErrorMessage() {
         var userDto = initUserDto();
         var carDto = initCarDto();
-        carDto.setId(0);
+        carDto.setId(null);
         when(carService.create(carDto)).thenReturn(carDto);
 
         var model = new ConcurrentModel();
@@ -144,10 +145,10 @@ public class CarControllerTest {
     @Test
     public void whenGetByIdThenReturnCarDto() {
         var expected = initCarDto();
-        when(carService.findById(2)).thenReturn(Optional.of(expected));
+        when(carService.findById(2L)).thenReturn(Optional.of(expected));
 
         var model = new ConcurrentModel();
-        var view = carController.getById(model, 2);
+        var view = carController.getById(model, 2L);
         var actual = model.getAttribute("carDto");
 
         assertThat(view).isEqualTo("cars/one");
@@ -156,10 +157,10 @@ public class CarControllerTest {
 
     @Test
     public void whenGetByWrongIdThenReturnErrorMessage() {
-        when(carService.findById(anyInt())).thenReturn(Optional.empty());
+        when(carService.findById(anyLong())).thenReturn(Optional.empty());
 
         var model = new ConcurrentModel();
-        var view = carController.getById(model, 2);
+        var view = carController.getById(model, 2L);
         var expectedMessage = "Car with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
@@ -175,10 +176,10 @@ public class CarControllerTest {
 
         when(colorService.findAll()).thenReturn(expectedColors);
         when(typeService.findAll()).thenReturn(expectedTypes);
-        when(carService.findById(2)).thenReturn(Optional.of(expectedCarDto));
+        when(carService.findById(2L)).thenReturn(Optional.of(expectedCarDto));
 
         var model = new ConcurrentModel();
-        var view = carController.editById(model, 2);
+        var view = carController.editById(model, 2L);
         var actualCarDto = model.getAttribute("carDto");
         var actualColors = model.getAttribute("colors");
         var actualTypes = model.getAttribute("types");
@@ -191,10 +192,10 @@ public class CarControllerTest {
 
     @Test
     public void whenGetEditByWrongIdThenReturnErrorMessage() {
-        when(carService.findById(anyInt())).thenReturn(Optional.empty());
+        when(carService.findById(anyLong())).thenReturn(Optional.empty());
 
         var model = new ConcurrentModel();
-        var view = carController.editById(model, 2);
+        var view = carController.editById(model, 2L);
         var expectedMessage = "Car with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
@@ -232,10 +233,10 @@ public class CarControllerTest {
     @Test
     public void whenGetDeleteThenRedirectCars() {
         var userDto = initUserDto();
-        when(carService.deleteById(2, userDto)).thenReturn(true);
+        when(carService.deleteById(2L, userDto)).thenReturn(true);
 
         var model = new ConcurrentModel();
-        var view = carController.delete(model, 2, userDto);
+        var view = carController.delete(model, 2L, userDto);
 
         assertThat(view).isEqualTo("redirect:/cars");
     }
@@ -243,10 +244,10 @@ public class CarControllerTest {
     @Test
     public void whenGetDeleteThenReturnErrorMessage() {
         var userDto = initUserDto();
-        when(carService.deleteById(2, userDto)).thenReturn(false);
+        when(carService.deleteById(2L, userDto)).thenReturn(false);
 
         var model = new ConcurrentModel();
-        var view = carController.delete(model, 2, userDto);
+        var view = carController.delete(model, 2L, userDto);
         var expectedMessage = "Car with this Id not found!";
         var actualMessage = model.getAttribute("message");
 

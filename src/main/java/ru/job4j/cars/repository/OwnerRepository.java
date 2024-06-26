@@ -11,12 +11,12 @@ public interface OwnerRepository {
 
     List<Owner> findAllOrderById();
 
-    Optional<Owner> findById(int ownerId);
+    Optional<Owner> findById(Long ownerId);
 
-    Optional<Owner> findByUserId(int userId);
+    Optional<Owner> findByUserId(Long userId);
 
     boolean update(Owner owner);
 
-    boolean delete(int ownerId);
+    boolean delete(Long ownerId);
 
 }

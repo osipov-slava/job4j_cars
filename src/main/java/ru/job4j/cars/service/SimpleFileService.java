@@ -105,7 +105,7 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public Optional<FileDto> getFileById(int id) {
+    public Optional<FileDto> getFileById(Long id) {
         var fileOptional = fileRepository.findById(id);
         if (fileOptional.isEmpty()) {
             return Optional.empty();
@@ -115,9 +115,9 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public List<Integer> getFileIdsByPostId(int postId) {
+    public List<Long> getFileIdsByPostId(Long postId) {
         var files = fileRepository.findFilesByPostId(postId);
-        List<Integer> ids = new ArrayList<>();
+        List<Long> ids = new ArrayList<>();
         for (File file : files) {
             ids.add(file.getId());
         }
@@ -133,7 +133,7 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public void deleteByPostId(int postId) {
+    public void deleteByPostId(Long postId) {
         var files = fileRepository.findFilesByPostId(postId);
         if (fileRepository.deleteByPostId(postId)) {
             for (File file : files) {

@@ -84,7 +84,7 @@ public class HbnUserRepositoryTest {
 
     @Test
     public void whenDeleteUnknownUserThenReturnFalse() {
-        boolean result = userRepository.delete(1);
+        boolean result = userRepository.delete(1L);
         assertThat(result).isFalse();
     }
 

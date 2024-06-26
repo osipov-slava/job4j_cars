@@ -10,6 +10,6 @@ public interface TypeRepository {
 
     List<Type> findAll();
 
-    boolean deleteById(int id);
+    boolean deleteById(Integer id);
 
 }

@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,11 +53,11 @@ public class SimpleCarServiceTest {
         color.setName("Black");
 
         var car = new Car();
-        car.setId(1);
+        car.setId(1L);
         car.setName("Toyota Corolla");
         car.setEngine(engine);
         car.setOwner(new Owner());
-        car.getOwner().setId(100);
+        car.getOwner().setId(100L);
         car.setColor(color);
         car.setType(type);
         return car;
@@ -67,7 +68,7 @@ public class SimpleCarServiceTest {
         var car = initCar();
         cars.add(car);
         car = initCar();
-        car.setId(2);
+        car.setId(2L);
         cars.add(car);
         return cars;
     }
@@ -94,17 +95,17 @@ public class SimpleCarServiceTest {
     public void whenFindByIdThenSuccessful() {
         Car car = initCar();
         CarDto carDto = carMapper.getModelFromEntity(car);
-        when(carRepository.findById(1)).thenReturn(Optional.of(car));
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
 
-        var actual = carService.findById(1);
+        var actual = carService.findById(1L);
         assertThat(actual.isPresent()).isTrue();
         assertThat(actual.get()).usingRecursiveAssertion().isEqualTo(carDto);
     }
 
     @Test
     public void whenFindByIdThenUnsuccessful() {
-        when(carRepository.findById(1)).thenReturn(Optional.empty());
-        var actual = carService.findById(1);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
+        var actual = carService.findById(1L);
         assertThat(actual.isEmpty()).isTrue();
     }
 
@@ -198,20 +199,20 @@ public class SimpleCarServiceTest {
     @Test
     public void whenDeleteColorThenReturnTrue() {
         UserDto userDto = new UserDto();
-        userDto.setOwnerId(1);
-        when(carRepository.delete(1, userDto.getOwnerId())).thenReturn(true);
+        userDto.setOwnerId(1L);
+        when(carRepository.delete(1L, userDto.getOwnerId())).thenReturn(true);
 
-        var actual = carService.deleteById(1, userDto);
+        var actual = carService.deleteById(1L, userDto);
         assertThat(actual).isTrue();
     }
 
     @Test
     public void whenDeleteUnknownColorThenReturnFalse() {
         UserDto userDto = new UserDto();
-        userDto.setOwnerId(1);
-        when(carRepository.delete(anyInt(), anyInt())).thenReturn(false);
+        userDto.setOwnerId(1L);
+        when(carRepository.delete(anyLong(), anyLong())).thenReturn(false);
 
-        var actual = carService.deleteById(1, userDto);
+        var actual = carService.deleteById(1L, userDto);
         assertThat(actual).isFalse();
     }
 

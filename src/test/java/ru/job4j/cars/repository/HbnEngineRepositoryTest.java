@@ -71,7 +71,7 @@ public class HbnEngineRepositoryTest {
 
     @Test
     public void whenDeleteUnknownEngineThenReturnFalse() {
-        boolean result = engineRepository.delete(1);
+        boolean result = engineRepository.delete(1L);
         assertThat(result).isFalse();
     }
 

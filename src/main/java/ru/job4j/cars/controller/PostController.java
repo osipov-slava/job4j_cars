@@ -63,7 +63,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+    public String getById(Model model, @PathVariable Long id, @SessionAttribute UserDto userDto) {
         var postOptional = postService.findById(id, userDto);
         if (postOptional.isEmpty()) {
             model.addAttribute("message", "Post with this Id not found!");
@@ -82,7 +82,7 @@ public class PostController {
     }
 
     @GetMapping("update/{id}")
-    public String editById(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+    public String editById(Model model, @PathVariable Long id, @SessionAttribute UserDto userDto) {
         var postOptional = postService.findById(id, userDto);
         if (postOptional.isEmpty()) {
             model.addAttribute("message", "Post with this Id not found!");
@@ -108,7 +108,7 @@ public class PostController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+    public String delete(Model model, @PathVariable Long id, @SessionAttribute UserDto userDto) {
         var isDeleted = postService.deleteById(id, userDto);
         if (!isDeleted) {
             model.addAttribute("message", "Delete Post with this Id was unsuccessful!");

@@ -21,7 +21,7 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         return priceHistory;
     }
 
-    public List<PriceHistory> findAllByPostId(int postId) {
+    public List<PriceHistory> findAllByPostId(Long postId) {
         return crudRepository.query("""
                         FROM PriceHistory ph
                         WHERE post.id = :postId
@@ -41,7 +41,7 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         );
     }
 
-    public Optional<PriceHistory> findById(int priceHistoryId) {
+    public Optional<PriceHistory> findById(Long priceHistoryId) {
         return crudRepository.optional("""
                         FROM PriceHistory ph
                         WHERE ph.id = :id""", PriceHistory.class,
@@ -49,7 +49,7 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         );
     }
 
-    public Optional<PriceHistory> findLastByPostId(int postId) {
+    public Optional<PriceHistory> findLastByPostId(Long postId) {
         return crudRepository.optional("""
                         FROM PriceHistory ph
                         WHERE post.id = :postId
@@ -62,7 +62,7 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
         );
     }
 
-    public boolean deleteAllByPostId(int postId) {
+    public boolean deleteAllByPostId(Long postId) {
         try {
             var result = crudRepository.run("""
                             DELETE FROM PriceHistory
@@ -71,7 +71,7 @@ public class HbnPriceHistoryRepository implements PriceHistoryRepository {
             );
             return true;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete PriceHistory was unsuccessful", e);
         }
         return false;
     }

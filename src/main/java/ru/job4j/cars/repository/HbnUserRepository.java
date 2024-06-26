@@ -44,7 +44,7 @@ public class HbnUserRepository implements UserRepository {
      * @return user.
      */
     @Override
-    public Optional<User> findById(int userId) {
+    public Optional<User> findById(Long userId) {
         return crudRepository.optional(
                 "FROM User WHERE id = :id", User.class,
                 Map.of("id", userId)
@@ -88,7 +88,7 @@ public class HbnUserRepository implements UserRepository {
                             "email", user.getEmail()));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update User was unsuccessful", e);
         }
         return false;
     }
@@ -100,7 +100,7 @@ public class HbnUserRepository implements UserRepository {
      * @return is updated.
      */
     @Override
-    public boolean delete(int userId) {
+    public boolean delete(Long userId) {
         try {
             var result = crudRepository.run(
                     "DELETE FROM User WHERE id = :id",
@@ -108,7 +108,7 @@ public class HbnUserRepository implements UserRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete User was unsuccessful", e);
         }
         return false;
     }

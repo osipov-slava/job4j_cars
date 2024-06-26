@@ -24,7 +24,7 @@ public class SimpleTypeService implements TypeService {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Integer id) {
         return typeRepository.deleteById(id);
     }
 

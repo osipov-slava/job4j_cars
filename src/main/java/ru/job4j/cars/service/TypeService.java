@@ -10,6 +10,6 @@ public interface TypeService {
 
     List<Type> findAll();
 
-    boolean deleteById(int id);
+    boolean deleteById(Integer id);
 
 }

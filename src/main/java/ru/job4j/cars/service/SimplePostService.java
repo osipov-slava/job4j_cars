@@ -47,7 +47,7 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public Optional<PostDto> findById(int id, UserDto userDto) {
+    public Optional<PostDto> findById(Long id, UserDto userDto) {
         Optional<PostDto> optionalPostDto = Optional.empty();
         Optional<Post> optionalPost = postRepository.findById(id);
         if (optionalPost.isEmpty()) {
@@ -74,11 +74,11 @@ public class SimplePostService implements PostService {
 
     private List<PostDto> makePostDtosWithAdditionalData(List<Post> posts, UserDto userDto) {
         List<CarDto> carDtos = carService.findAll();
-        Map<Integer, CarDto> mapAllCarDtos = carDtos.stream().
+        Map<Long, CarDto> mapAllCarDtos = carDtos.stream().
                 collect(Collectors.toMap(CarDto::getId, carDto -> carDto));
 
         List<PriceHistory> priceHistories = priceHistoryService.findAllLastPrice();
-        Map<Integer, PriceHistory> mapAllPH = new HashMap<>();
+        Map<Long, PriceHistory> mapAllPH = new HashMap<>();
         for (PriceHistory ph : priceHistories) {
             mapAllPH.put(ph.getPost().getId(), ph);
         }
@@ -123,7 +123,7 @@ public class SimplePostService implements PostService {
     }
 
     @Override
-    public boolean deleteById(int id, UserDto userDto) {
+    public boolean deleteById(Long id, UserDto userDto) {
         if (!priceHistoryService.deleteAllByPostId(id)) {
             return false;
         }

@@ -150,7 +150,7 @@ public class HbnHistoryOwnerRepositoryTest {
 
     @Test
     public void whenDeleteUnknownHistoryOwnerThenReturnFalse() {
-        boolean result = historyOwnerRepository.delete(1);
+        boolean result = historyOwnerRepository.delete(1L);
         assertThat(result).isFalse();
     }
 

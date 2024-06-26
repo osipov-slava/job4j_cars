@@ -31,7 +31,7 @@ public class SimpleCarService implements CarService {
     }
 
     @Override
-    public Optional<CarDto> findById(int id) {
+    public Optional<CarDto> findById(Long id) {
         Optional<CarDto> optionalCarDto = Optional.empty();
         var optionalCar = carRepository.findById(id);
         if (optionalCar.isPresent()) {
@@ -61,7 +61,6 @@ public class SimpleCarService implements CarService {
     }
 
     /**
-     *
      * @param carDto
      * @param userDto - current user
      * @return 'false' if car.id is invalid or User hasn't access to record in case change Owner
@@ -82,7 +81,7 @@ public class SimpleCarService implements CarService {
     }
 
     @Override
-    public boolean deleteById(int id, UserDto userDto) {
+    public boolean deleteById(Long id, UserDto userDto) {
         return carRepository.delete(id, userDto.getOwnerId());
     }
 

@@ -30,7 +30,7 @@ public class HbnCarRepository implements CarRepository {
                 order by c.name asc""", Car.class);
     }
 
-    public List<Car> findAllByOwnerId(int ownerId) {
+    public List<Car> findAllByOwnerId(Long ownerId) {
         return crudRepository.query("""
                         from Car c
                         join fetch c.engine
@@ -42,7 +42,7 @@ public class HbnCarRepository implements CarRepository {
         );
     }
 
-    public Optional<Car> findById(int carId) {
+    public Optional<Car> findById(Long carId) {
         return crudRepository.optional("""
                         from Car c
                         join fetch c.engine
@@ -69,12 +69,12 @@ public class HbnCarRepository implements CarRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update Car was unsuccessful", e);
         }
         return false;
     }
 
-    public boolean delete(int carId, int ownerId) {
+    public boolean delete(Long carId, Long ownerId) {
         try {
             var result = crudRepository.run("""
                             delete from Car c
@@ -84,7 +84,7 @@ public class HbnCarRepository implements CarRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete Car was unsuccessful", e);
         }
         return false;
     }

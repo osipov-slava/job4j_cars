@@ -11,10 +11,10 @@ public interface EngineRepository {
 
     List<Engine> findAllOrderById();
 
-    Optional<Engine> findById(int engineId);
+    Optional<Engine> findById(Long engineId);
 
     boolean update(Engine engine);
 
-    boolean delete(int engineId);
+    boolean delete(Long engineId);
 
 }

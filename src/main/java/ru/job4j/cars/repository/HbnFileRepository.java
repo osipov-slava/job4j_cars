@@ -27,7 +27,7 @@ public class HbnFileRepository implements FileRepository {
                 order by f.id asc""", File.class);
     }
 
-    public Optional<File> findById(int fileId) {
+    public Optional<File> findById(Long fileId) {
         return crudRepository.optional("""
                         from File f
                         where f.id = :fId""", File.class,
@@ -36,7 +36,7 @@ public class HbnFileRepository implements FileRepository {
     }
 
     @Override
-    public List<File> findFilesByPostId(int postId) {
+    public List<File> findFilesByPostId(Long postId) {
         return crudRepository.query("""
                         from File
                         where post.id = :postId""",
@@ -52,12 +52,12 @@ public class HbnFileRepository implements FileRepository {
                             "path", file.getPath()));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update File was unsuccessful", e);
         }
         return false;
     }
 
-    public boolean delete(int fileId) {
+    public boolean delete(Long fileId) {
         try {
             var result = crudRepository.run(
                     "delete from File where id = :fId",
@@ -65,13 +65,13 @@ public class HbnFileRepository implements FileRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete File was unsuccessful", e);
         }
         return false;
     }
 
     @Override
-    public boolean deleteByPostId(int postId) {
+    public boolean deleteByPostId(Long postId) {
         try {
             var result = crudRepository.run(
                     "delete from File where post.id = :postId",
@@ -79,7 +79,7 @@ public class HbnFileRepository implements FileRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete File was unsuccessful", e);
         }
         return false;
     }

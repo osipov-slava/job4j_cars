@@ -29,7 +29,7 @@ public class HbnOwnerRepository implements OwnerRepository {
                 order by o.id asc""", Owner.class);
     }
 
-    public Optional<Owner> findById(int ownerId) {
+    public Optional<Owner> findById(Long ownerId) {
         return crudRepository.optional("""
                         from Owner o
                         join fetch o.user
@@ -39,7 +39,7 @@ public class HbnOwnerRepository implements OwnerRepository {
         );
     }
 
-    public Optional<Owner> findByUserId(int userId) {
+    public Optional<Owner> findByUserId(Long userId) {
         return crudRepository.optional("""
                         from Owner o
                         where o.user.id = :userId""", Owner.class,
@@ -55,12 +55,12 @@ public class HbnOwnerRepository implements OwnerRepository {
                             "user", owner.getUser()));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update Owner was unsuccessful", e);
         }
         return false;
     }
 
-    public boolean delete(int ownerId) {
+    public boolean delete(Long ownerId) {
         try {
             var result = crudRepository.run(
                     "delete from Owner where id = :fId",
@@ -68,7 +68,7 @@ public class HbnOwnerRepository implements OwnerRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete Owner was unsuccessful", e);
         }
         return false;
     }

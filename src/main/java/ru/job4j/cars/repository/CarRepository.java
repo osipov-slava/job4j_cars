@@ -11,12 +11,12 @@ public interface CarRepository {
 
     List<Car> findAll();
 
-    List<Car> findAllByOwnerId(int ownerId);
+    List<Car> findAllByOwnerId(Long ownerId);
 
-    Optional<Car> findById(int carId);
+    Optional<Car> findById(Long carId);
 
     boolean update(Car car);
 
-    boolean delete(int carId, int ownerId);
+    boolean delete(Long carId, Long ownerId);
 
 }

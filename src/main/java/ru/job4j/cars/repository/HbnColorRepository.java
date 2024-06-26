@@ -27,7 +27,7 @@ public class HbnColorRepository implements ColorRepository {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Integer id) {
         try {
             var result = crudRepository.run(
                     "DELETE FROM Color WHERE id = :id",
@@ -35,7 +35,7 @@ public class HbnColorRepository implements ColorRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete Color was unsuccessful", e);
         }
         return false;
     }

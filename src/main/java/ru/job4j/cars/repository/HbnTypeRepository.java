@@ -27,7 +27,7 @@ public class HbnTypeRepository implements TypeRepository {
     }
 
     @Override
-    public boolean deleteById(int id) {
+    public boolean deleteById(Integer id) {
         try {
             var result = crudRepository.run(
                     "DELETE FROM Type WHERE id = :id",
@@ -35,7 +35,7 @@ public class HbnTypeRepository implements TypeRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete Type was unsuccessful", e);
         }
         return false;
     }

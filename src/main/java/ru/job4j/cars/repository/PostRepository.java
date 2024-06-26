@@ -12,7 +12,7 @@ public interface PostRepository {
 
     List<Post> findAllOrderById();
 
-    Optional<Post> findById(int postId);
+    Optional<Post> findById(Long postId);
 
     List<Post> findPostsWithSubscribersByPosts(List<Post> posts);
 
@@ -28,6 +28,6 @@ public interface PostRepository {
 
     boolean update(Post post, User user);
 
-    boolean delete(int postId, User user);
+    boolean delete(Long postId, User user);
 
 }

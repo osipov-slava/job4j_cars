@@ -12,11 +12,11 @@ public interface FileService {
 
     File save(FileDto fileDto);
 
-    Optional<FileDto> getFileById(int id);
+    Optional<FileDto> getFileById(Long id);
 
-    List<Integer> getFileIdsByPostId(int postId);
+    List<Long> getFileIdsByPostId(Long postId);
 
-    void deleteByPostId(int postId);
+    void deleteByPostId(Long postId);
 
     List<File> createFilesFromMultipartFiles(MultipartFile[] multipartFiles);
 

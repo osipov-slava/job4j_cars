@@ -36,17 +36,17 @@ public class SimplePriceHistoryService implements PriceHistoryService {
     }
 
     @Override
-    public Optional<PriceHistory> findById(int id) {
+    public Optional<PriceHistory> findById(Long id) {
         return priceHistoryRepository.findById(id);
     }
 
     @Override
-    public Optional<PriceHistory> findLastByPostId(int postId) {
+    public Optional<PriceHistory> findLastByPostId(Long postId) {
         return priceHistoryRepository.findLastByPostId(postId);
     }
 
     @Override
-    public List<PriceHistoryDto> findAllByPostId(int postId, UserDto userDto) {
+    public List<PriceHistoryDto> findAllByPostId(Long postId, UserDto userDto) {
         var priceHistories = priceHistoryRepository.findAllByPostId(postId);
         List<PriceHistoryDto> priceHistoryDtos = new ArrayList<>();
         for (PriceHistory ph : priceHistories) {
@@ -79,7 +79,7 @@ public class SimplePriceHistoryService implements PriceHistoryService {
     }
 
     @Override
-    public boolean deleteAllByPostId(int postId) {
+    public boolean deleteAllByPostId(Long postId) {
         return priceHistoryRepository.deleteAllByPostId(postId);
     }
 

@@ -145,7 +145,7 @@ public class HbnCarRepositoryTest {
 
     @Test
     public void whenDeleteUnknownCarThenReturnFalse() {
-        boolean result = carRepository.delete(1, 1);
+        boolean result = carRepository.delete(1L, 1L);
         assertThat(result).isFalse();
     }
 

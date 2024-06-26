@@ -1,7 +1,5 @@
 package ru.job4j.cars.service;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.cars.dto.CarDto;
 import ru.job4j.cars.dto.PostDto;
 import ru.job4j.cars.dto.UserDto;
@@ -14,13 +12,13 @@ public interface PostService {
 
     PostDto create(PostDto task, CarDto carDto, List<File> files);
 
-    Optional<PostDto> findById(int id, UserDto userDto);
+    Optional<PostDto> findById(Long id, UserDto userDto);
 
     List<PostDto> findAll(UserDto userDto);
 
     boolean update(PostDto postDto, UserDto userDto);
 
-    boolean deleteById(int id, UserDto userDto);
+    boolean deleteById(Long id, UserDto userDto);
 
     List<PostDto> findActive(UserDto userDto);
 

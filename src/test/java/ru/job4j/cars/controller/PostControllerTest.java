@@ -45,19 +45,19 @@ public class PostControllerTest {
 
     private UserDto initUserDto() {
         UserDto userDto = new UserDto();
-        userDto.setId(1);
+        userDto.setId(1L);
         userDto.setTimezone("UTC");
         userDto.setName("User Name");
         userDto.setPassword("password");
         userDto.setEmail("mail@mail.com");
         userDto.setLogin("user");
-        userDto.setOwnerId(2);
+        userDto.setOwnerId(2L);
         return userDto;
     }
 
     private CarDto initCarDto() {
         CarDto carDto = new CarDto();
-        carDto.setId(1);
+        carDto.setId(1L);
         carDto.setName("Toyota Corolla");
         carDto.setEngineName("v4 120HP");
         carDto.setColor("Black");
@@ -67,13 +67,13 @@ public class PostControllerTest {
 
     private List<CarDto> initCarDtos() {
         List<CarDto> carDtos = List.of(initCarDto(), initCarDto());
-        carDtos.get(1).setId(2);
+        carDtos.get(1).setId(2L);
         return carDtos;
     }
 
     private PostDto initPostDto(CarDto carDto, UserDto userDto) {
         PostDto postDto = new PostDto();
-        postDto.setId(2);
+        postDto.setId(2L);
         postDto.setDescription("new post");
         postDto.setIsActive(true);
         postDto.setCarId(carDto.getId());
@@ -81,13 +81,13 @@ public class PostControllerTest {
         postDto.setUserId(userDto.getId());
         postDto.setOwnerName(carDto.getOwnerName());
         postDto.setPrice(20000);
-        postDto.setPriceHistoryId(1);
+        postDto.setPriceHistoryId(1L);
         return postDto;
     }
 
     private List<PostDto> initPostDtos(CarDto carDto, UserDto userDto) {
         List<PostDto> postDtos = List.of(initPostDto(carDto, userDto), initPostDto(carDto, userDto));
-        postDtos.get(1).setId(2);
+        postDtos.get(1).setId(2L);
         return postDtos;
     }
 
@@ -155,7 +155,7 @@ public class PostControllerTest {
         var userDto = initUserDto();
         var carDto = initCarDto();
         var postDto = initPostDto(carDto, userDto);
-        postDto.setId(0);
+        postDto.setId(0L);
         var multipartFiles = new MultipartFile[2];
         var files = List.of(new File(), new File());
         when(fileService.createFilesFromMultipartFiles(multipartFiles)).thenReturn(files);
@@ -175,10 +175,10 @@ public class PostControllerTest {
         var userDto = initUserDto();
         var carDto = initCarDto();
         var postDto = initPostDto(carDto, userDto);
-        var fileIds = List.of(1, 10);
+        var fileIds = List.of(1L, 10L);
         var priceHistoryDtos = List.of(new PriceHistoryDto(), new PriceHistoryDto());
-        priceHistoryDtos.get(0).setId(1);
-        priceHistoryDtos.get(1).setId(2);
+        priceHistoryDtos.get(0).setId(1L);
+        priceHistoryDtos.get(1).setId(2L);
 
         when(postService.findById(postDto.getId(), userDto)).thenReturn(Optional.of(postDto));
         when(carService.findById(postDto.getCarId())).thenReturn(Optional.of(carDto));
@@ -202,10 +202,10 @@ public class PostControllerTest {
     @Test
     public void whenGetByIdWithWrongPostIdThenReturnErrorMessage() {
         var userDto = initUserDto();
-        when(postService.findById(3, userDto)).thenReturn(Optional.empty());
+        when(postService.findById(3L, userDto)).thenReturn(Optional.empty());
 
         var model = new ConcurrentModel();
-        var view = postController.getById(model, 3, userDto);
+        var view = postController.getById(model, 3L, userDto);
         var expectedMessage = "Post with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
@@ -235,13 +235,13 @@ public class PostControllerTest {
         var carDto = initCarDto();
         var userDto = initUserDto();
         var postDto = initPostDto(carDto, userDto);
-        var fileIds = List.of(1, 10);
+        var fileIds = List.of(1L, 10L);
 
-        when(postService.findById(2, userDto)).thenReturn(Optional.of(postDto));
+        when(postService.findById(2L, userDto)).thenReturn(Optional.of(postDto));
         when(fileService.getFileIdsByPostId(postDto.getId())).thenReturn(fileIds);
 
         var model = new ConcurrentModel();
-        var view = postController.editById(model, 2, userDto);
+        var view = postController.editById(model, 2L, userDto);
         var actualPostDto = model.getAttribute("postDto");
         var actualFileIds = model.getAttribute("fileIds");
 
@@ -253,10 +253,10 @@ public class PostControllerTest {
     @Test
     public void whenGetEditByWrongIdThenReturnErrorMessage() {
         var userDto = initUserDto();
-        when(postService.findById(2, userDto)).thenReturn(Optional.empty());
+        when(postService.findById(2L, userDto)).thenReturn(Optional.empty());
 
         var model = new ConcurrentModel();
-        var view = postController.editById(model, 2, userDto);
+        var view = postController.editById(model, 2L, userDto);
         var expectedMessage = "Post with this Id not found!";
         var actualMessage = model.getAttribute("message");
 
@@ -296,10 +296,10 @@ public class PostControllerTest {
     @Test
     public void whenGetDeleteThenRedirectCars() {
         var userDto = initUserDto();
-        when(postService.deleteById(2, userDto)).thenReturn(true);
+        when(postService.deleteById(2L, userDto)).thenReturn(true);
 
         var model = new ConcurrentModel();
-        var view = postController.delete(model, 2, userDto);
+        var view = postController.delete(model, 2L, userDto);
 
         assertThat(view).isEqualTo("redirect:/posts");
     }
@@ -307,10 +307,10 @@ public class PostControllerTest {
     @Test
     public void whenGetDeleteThenReturnErrorMessage() {
         var userDto = initUserDto();
-        when(postService.deleteById(2, userDto)).thenReturn(false);
+        when(postService.deleteById(2L, userDto)).thenReturn(false);
 
         var model = new ConcurrentModel();
-        var view = postController.delete(model, 2, userDto);
+        var view = postController.delete(model, 2L, userDto);
         var expectedMessage = "Delete Post with this Id was unsuccessful!";
         var actualMessage = model.getAttribute("message");
 

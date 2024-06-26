@@ -10,6 +10,6 @@ public interface ColorService {
 
     List<Color> findAll();
 
-    boolean deleteById(int id);
+    boolean deleteById(Integer id);
 
 }

@@ -11,12 +11,12 @@ public interface UserRepository {
 
     List<User> findAllOrderById();
 
-    Optional<User> findById(int userId);
+    Optional<User> findById(Long userId);
 
     Optional<User> findByEmailAndPassword(String email, String password);
 
     boolean update(User user);
 
-    boolean delete(int userId);
+    boolean delete(Long userId);
 
 }

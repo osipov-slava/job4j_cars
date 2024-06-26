@@ -9,14 +9,14 @@ public interface PriceHistoryRepository {
 
     PriceHistory create(PriceHistory priceHistory);
 
-    List<PriceHistory> findAllByPostId(int postId);
+    List<PriceHistory> findAllByPostId(Long postId);
 
     List<PriceHistory> findAllLastPrice();
 
-    Optional<PriceHistory> findById(int priceHistoryId);
+    Optional<PriceHistory> findById(Long priceHistoryId);
 
-    Optional<PriceHistory> findLastByPostId(int postId);
+    Optional<PriceHistory> findLastByPostId(Long postId);
 
-    boolean deleteAllByPostId(int postId);
+    boolean deleteAllByPostId(Long postId);
 
 }

@@ -25,7 +25,7 @@ public class HbnEngineRepository implements EngineRepository {
         return crudRepository.query("from Engine order by id asc", Engine.class);
     }
 
-    public Optional<Engine> findById(int engineId) {
+    public Optional<Engine> findById(Long engineId) {
         return crudRepository.optional("from Engine where id = :fId", Engine.class,
                 Map.of("fId", engineId));
     }
@@ -37,18 +37,18 @@ public class HbnEngineRepository implements EngineRepository {
                             "name", engine.getName()));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update Engine was unsuccessful", e);
         }
         return false;
     }
 
-    public boolean delete(int engineId) {
+    public boolean delete(Long engineId) {
         try {
             var result = crudRepository.run("delete from Engine where id = :fId",
                     Map.of("fId", engineId));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete Engine was unsuccessful", e);
         }
         return false;
     }

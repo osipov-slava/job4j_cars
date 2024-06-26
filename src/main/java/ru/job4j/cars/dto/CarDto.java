@@ -5,23 +5,23 @@ import lombok.Data;
 @Data
 public class CarDto {
 
-    private int id;
+    private Long id;
 
     private String name;
 
-    private int typeId;
+    private Integer typeId;
 
     private String type;
 
-    private int colorId;
+    private Integer colorId;
 
     private String color;
 
-    private int engineId;
+    private Long engineId;
 
     private String engineName;
 
-    private int ownerId;
+    private Long ownerId;
 
     private String ownerName;
 

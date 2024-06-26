@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PriceHistoryDto {
 
-    private int id;
+    private Long id;
 
     private String after;
 

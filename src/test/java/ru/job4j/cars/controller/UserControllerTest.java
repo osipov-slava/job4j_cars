@@ -57,7 +57,7 @@ public class UserControllerTest {
     @Test
     public void whenPostRegisterUserThenRedirectPostsPage() {
         var expectedUserDto = initUserDto();
-        expectedUserDto.setId(1);
+        expectedUserDto.setId(1L);
         var newUserDto = initUserDto();
         var userArgumentCaptor = ArgumentCaptor.forClass(UserDto.class);
         when(userService.create(userArgumentCaptor.capture())).thenReturn(expectedUserDto);

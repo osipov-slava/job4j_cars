@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,9 +37,9 @@ public class FileControllerTest {
     public void whenRequestFileByIdThenReturnResponseEntity() throws Exception {
         var fileDto = new FileDto(testFile.getOriginalFilename(), testFile.getBytes());
         var optionalFile = Optional.of(fileDto);
-        when(fileService.getFileById(1)).thenReturn(optionalFile);
+        when(fileService.getFileById(1L)).thenReturn(optionalFile);
 
-        var responseEntity = fileController.getById(1);
+        var responseEntity = fileController.getById(1L);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(responseEntity.getBody()).isEqualTo(testFile.getBytes());
@@ -46,9 +47,9 @@ public class FileControllerTest {
 
     @Test
     public void whenRequestUnknownFileByIdThenReturnResponseNotFound() throws Exception {
-        when(fileService.getFileById(anyInt())).thenReturn(Optional.empty());
+        when(fileService.getFileById(anyLong())).thenReturn(Optional.empty());
 
-        var responseEntity = fileController.getById(1);
+        var responseEntity = fileController.getById(1L);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(responseEntity.getBody()).isEqualTo(null);

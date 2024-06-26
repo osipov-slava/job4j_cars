@@ -90,7 +90,7 @@ public class HbnOwnerRepositoryTest {
 
     @Test
     public void whenDeleteUnknownOwnerThenReturnFalse() {
-        boolean result = ownerRepository.delete(1);
+        boolean result = ownerRepository.delete(1L);
         assertThat(result).isFalse();
     }
 

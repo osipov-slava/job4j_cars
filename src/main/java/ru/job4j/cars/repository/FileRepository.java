@@ -11,14 +11,14 @@ public interface FileRepository {
 
     List<File> findAllOrderById();
 
-    Optional<File> findById(int fileId);
+    Optional<File> findById(Long fileId);
 
-    List<File> findFilesByPostId(int postId);
+    List<File> findFilesByPostId(Long postId);
 
     boolean update(File file);
 
-    boolean delete(int fileId);
+    boolean delete(Long fileId);
 
-    boolean deleteByPostId(int postId);
+    boolean deleteByPostId(Long postId);
 
 }

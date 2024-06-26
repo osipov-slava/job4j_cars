@@ -11,7 +11,7 @@ public interface CarService {
 
     CarDto create(CarDto carDto);
 
-    Optional<CarDto> findById(int id);
+    Optional<CarDto> findById(Long id);
 
     List<CarDto> findAll();
 
@@ -19,6 +19,6 @@ public interface CarService {
 
     boolean update(CarDto carDto, UserDto userDto);
 
-    boolean deleteById(int id, UserDto userDto);
+    boolean deleteById(Long id, UserDto userDto);
 
 }

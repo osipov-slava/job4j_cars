@@ -38,7 +38,7 @@ public class CarController {
     @PostMapping("/create")
     public String create(@ModelAttribute CarDto carDto, Model model, @SessionAttribute UserDto userDto) {
         carDto.setOwnerId(userDto.getOwnerId());
-        if (carService.create(carDto).getId() == 0) {
+        if (carService.create(carDto).getId() == null) {
             model.addAttribute("message", "Creation Car was unsuccessful!");
             return "errors/404";
         }
@@ -46,7 +46,7 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id) {
+    public String getById(Model model, @PathVariable Long id) {
         var carOptional = carService.findById(id);
         if (carOptional.isEmpty()) {
             model.addAttribute("message", "Car with this Id not found!");
@@ -57,7 +57,7 @@ public class CarController {
     }
 
     @GetMapping("update/{id}")
-    public String editById(Model model, @PathVariable int id) {
+    public String editById(Model model, @PathVariable Long id) {
         var carOptional = carService.findById(id);
         if (carOptional.isEmpty()) {
             model.addAttribute("message", "Car with this Id not found!");
@@ -81,7 +81,7 @@ public class CarController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(Model model, @PathVariable int id, @SessionAttribute UserDto userDto) {
+    public String delete(Model model, @PathVariable Long id, @SessionAttribute UserDto userDto) {
         var isDeleted = carService.deleteById(id, userDto);
         if (!isDeleted) {
             model.addAttribute("message", "Car with this Id not found!");

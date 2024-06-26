@@ -29,7 +29,7 @@ public class HbnHistoryOwnerRepository implements HistoryOwnerRepository {
                 order by ho.id asc""", HistoryOwner.class);
     }
 
-    public Optional<HistoryOwner> findById(int historyOwnerId) {
+    public Optional<HistoryOwner> findById(Long historyOwnerId) {
         return crudRepository.optional("""
                         from HistoryOwner ho
                         join fetch ho.owner
@@ -52,12 +52,12 @@ public class HbnHistoryOwnerRepository implements HistoryOwnerRepository {
                             "owner", historyOwner.getOwner()));
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Update HistoryOwner was unsuccessful", e);
         }
         return false;
     }
 
-    public boolean delete(int historyOwnerId) {
+    public boolean delete(Long historyOwnerId) {
         try {
             var result = crudRepository.run(
                     "delete from HistoryOwner where id = :fId",
@@ -65,7 +65,7 @@ public class HbnHistoryOwnerRepository implements HistoryOwnerRepository {
             );
             return result > 0;
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("Delete HistoryOwner was unsuccessful", e);
         }
         return false;
     }

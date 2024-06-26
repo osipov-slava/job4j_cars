@@ -49,7 +49,7 @@ public class SimpleUserServiceTest {
 
     private User initUser() {
         User user = new User();
-        user.setId(1);
+        user.setId(1L);
         user.setPassword("password");
         user.setEmail("mail@mail.com");
         user.setLogin("user");
@@ -59,7 +59,7 @@ public class SimpleUserServiceTest {
 
     private Owner initOwner(User user) {
         Owner owner = new Owner();
-        owner.setId(1);
+        owner.setId(1L);
         owner.setUser(user);
         owner.setName("User Name");
         return owner;
@@ -75,8 +75,8 @@ public class SimpleUserServiceTest {
         when(ownerRepository.create(owner)).thenReturn(owner);
 
         var actual = userService.create(userDto);
-        userDto.setId(1);
-        userDto.setOwnerId(1);
+        userDto.setId(1L);
+        userDto.setOwnerId(1L);
         assertThat(actual).usingRecursiveAssertion().isEqualTo(userDto);
     }
 
@@ -92,8 +92,8 @@ public class SimpleUserServiceTest {
                 .thenReturn(Optional.of(owner));
 
         var actual = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        userDto.setId(1);
-        userDto.setOwnerId(1);
+        userDto.setId(1L);
+        userDto.setOwnerId(1L);
         assertThat(actual.isPresent()).isTrue();
         assertThat(actual.get()).usingRecursiveAssertion().isEqualTo(userDto);
     }

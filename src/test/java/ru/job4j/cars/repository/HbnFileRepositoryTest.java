@@ -74,7 +74,7 @@ public class HbnFileRepositoryTest {
 
     @Test
     public void whenDeleteUnknownFileThenReturnFalse() {
-        boolean result = fileRepository.delete(1);
+        boolean result = fileRepository.delete(1L);
         assertThat(result).isFalse();
     }
 

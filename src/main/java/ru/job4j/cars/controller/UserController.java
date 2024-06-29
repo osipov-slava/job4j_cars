@@ -1,6 +1,7 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/users")
 @AllArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -29,8 +31,12 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute UserDto userDto, Model model) {
-        if (userService.create(userDto).getId() == null) {
-            model.addAttribute("error", "User with this email is exist");
+        try {
+            userService.create(userDto);
+        } catch (Exception e) {
+            var message = "Create User was unsuccessful! Possible user with this email is exist. Try again";
+            log.error(message, e);
+            model.addAttribute("error", message);
             return "users/register";
         }
         return "redirect:/posts";

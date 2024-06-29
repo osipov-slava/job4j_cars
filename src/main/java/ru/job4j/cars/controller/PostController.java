@@ -1,6 +1,7 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping("/posts")
 @AllArgsConstructor
 @SessionAttributes("userDto")
+@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -53,10 +55,12 @@ public class PostController {
                          @RequestParam MultipartFile[] multipartFiles,
                          Model model) {
         List<File> files = fileService.createFilesFromMultipartFiles(multipartFiles);
-
-        var idCreatedPost = postService.create(postDto, carDto, files).getId();
-        if (idCreatedPost == 0) {
-            model.addAttribute("message", "Creation post was unsuccessful!");
+        try {
+            postService.create(postDto, carDto, files);
+        } catch (Exception e) {
+            var message = "Creation post was unsuccessful!";
+            log.error(message, e);
+            model.addAttribute("message", message);
             return "errors/404";
         }
         return "redirect:/posts";
@@ -99,9 +103,14 @@ public class PostController {
                          @RequestParam MultipartFile[] multipartFiles,
                          Model model) {
         fileService.updateFilesFromMultipartFiles(multipartFiles, postDto);
-
-        if (!postService.update(postDto, userDto)) {
-            model.addAttribute("message", "Update Post was unsuccessful!");
+        try {
+            if (!postService.update(postDto, userDto)) {
+                throw new Exception("postService.update() returned 'false'");
+            }
+        } catch (Exception e) {
+            var message = "Update Post was unsuccessful!";
+            log.error(message, e);
+            model.addAttribute("message", message);
             return "errors/404";
         }
         return "redirect:/posts";
@@ -109,9 +118,14 @@ public class PostController {
 
     @GetMapping("/delete/{id}")
     public String delete(Model model, @PathVariable Long id, @SessionAttribute UserDto userDto) {
-        var isDeleted = postService.deleteById(id, userDto);
-        if (!isDeleted) {
-            model.addAttribute("message", "Delete Post with this Id was unsuccessful!");
+        try {
+            if (!postService.deleteById(id, userDto)) {
+                throw new Exception("postService.update() returned 'false'");
+            }
+        } catch (Exception e) {
+            var message = "Delete Post was unsuccessful!";
+            log.error(message, e);
+            model.addAttribute("message", message);
             return "errors/404";
         }
         return "redirect:/posts";

@@ -1,6 +1,7 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import ru.job4j.cars.service.TypeService;
 @RequestMapping("/cars")
 @AllArgsConstructor
 @SessionAttributes("userDto")
+@Slf4j
 public class CarController {
 
     private final CarService carService;
@@ -38,11 +40,16 @@ public class CarController {
     @PostMapping("/create")
     public String create(@ModelAttribute CarDto carDto, Model model, @SessionAttribute UserDto userDto) {
         carDto.setOwnerId(userDto.getOwnerId());
-        if (carService.create(carDto).getId() == null) {
-            model.addAttribute("message", "Creation Car was unsuccessful!");
+        try {
+            carService.create(carDto);
+        } catch (Exception e) {
+            var message = "Creation Car was unsuccessful!";
+            log.error(message, e);
+            model.addAttribute("message", message);
             return "errors/404";
         }
         return "redirect:/cars";
+
     }
 
     @GetMapping("/{id}")
@@ -73,8 +80,14 @@ public class CarController {
     public String update(@ModelAttribute CarDto carDto,
                          @SessionAttribute UserDto userDto,
                          Model model) {
-        if (!carService.update(carDto, userDto)) {
-            model.addAttribute("message", "Update Car was unsuccessful!");
+        try {
+            if (!carService.update(carDto, userDto)) {
+                throw new Exception("carService.update() returned 'false'");
+            }
+        } catch (Exception e) {
+            var message = "Update Car was unsuccessful!";
+            log.error(message, e);
+            model.addAttribute("message", message);
             return "errors/404";
         }
         return "redirect:/cars";
@@ -82,9 +95,14 @@ public class CarController {
 
     @GetMapping("/delete/{id}")
     public String delete(Model model, @PathVariable Long id, @SessionAttribute UserDto userDto) {
-        var isDeleted = carService.deleteById(id, userDto);
-        if (!isDeleted) {
-            model.addAttribute("message", "Car with this Id not found!");
+        try {
+            if (!carService.deleteById(id, userDto)) {
+                throw new Exception("carService.deleteById() returned 'false'");
+            }
+        } catch (Exception e) {
+            var message = "Delete Car was unsuccessful!";
+            log.error(message, e);
+            model.addAttribute("message", message);
             return "errors/404";
         }
         return "redirect:/cars";

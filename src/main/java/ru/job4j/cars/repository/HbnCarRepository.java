@@ -54,24 +54,19 @@ public class HbnCarRepository implements CarRepository {
     }
 
     public boolean update(Car car) {
-        try {
-            var result = crudRepository.run("""
-                            UPDATE Car
-                            SET name = :name, engine = :engine, owner = :owner,
-                                type = :type, color = :color
-                            WHERE id = :id""",
-                    Map.of("id", car.getId(),
-                            "name", car.getName(),
-                            "engine", car.getEngine(),
-                            "type", car.getType(),
-                            "color", car.getColor(),
-                            "owner", car.getOwner())
-            );
-            return result > 0;
-        } catch (Exception e) {
-            log.error("Update Car was unsuccessful", e);
-        }
-        return false;
+        var result = crudRepository.run("""
+                        UPDATE Car
+                        SET name = :name, engine = :engine, owner = :owner,
+                            type = :type, color = :color
+                        WHERE id = :id""",
+                Map.of("id", car.getId(),
+                        "name", car.getName(),
+                        "engine", car.getEngine(),
+                        "type", car.getType(),
+                        "color", car.getColor(),
+                        "owner", car.getOwner())
+        );
+        return result > 0;
     }
 
     public boolean delete(Long carId, Long ownerId) {

@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class HbnCarRepositoryTest {
@@ -126,10 +127,13 @@ public class HbnCarRepositoryTest {
     }
 
     @Test
-    public void whenUpdateUnknownCarThenReturnFalse() {
+    public void whenUpdateUnknownCarThenThrowRuntimeException() {
         Car car = new Car();
-        boolean result = carRepository.update(car);
-        assertThat(result).isFalse();
+        car.setId(5L);
+
+        assertThrows(RuntimeException.class, () -> {
+            carRepository.update(car);
+        });
     }
 
     @Test

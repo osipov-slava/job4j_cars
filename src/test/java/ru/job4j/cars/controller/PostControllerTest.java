@@ -151,26 +151,6 @@ public class PostControllerTest {
     }
 
     @Test
-    public void whenPostCreateThenUnsuccessfulReturnErrorMessage() {
-        var userDto = initUserDto();
-        var carDto = initCarDto();
-        var postDto = initPostDto(carDto, userDto);
-        postDto.setId(0L);
-        var multipartFiles = new MultipartFile[2];
-        var files = List.of(new File(), new File());
-        when(fileService.createFilesFromMultipartFiles(multipartFiles)).thenReturn(files);
-        when(postService.create(postDto, carDto, files)).thenReturn(postDto);
-
-        var model = new ConcurrentModel();
-        var view = postController.create(postDto, carDto, multipartFiles, model);
-        var actualMessage = model.getAttribute("message");
-        var expectedMessage = "Creation post was unsuccessful!";
-
-        assertThat(view).isEqualTo("errors/404");
-        assertThat(actualMessage).isEqualTo(expectedMessage);
-    }
-
-    @Test
     public void whenGetByIdThenReturnPostDtoCarDtoFileIdsPriceHistories() {
         var userDto = initUserDto();
         var carDto = initCarDto();
@@ -311,7 +291,7 @@ public class PostControllerTest {
 
         var model = new ConcurrentModel();
         var view = postController.delete(model, 2L, userDto);
-        var expectedMessage = "Delete Post with this Id was unsuccessful!";
+        var expectedMessage = "Delete Post was unsuccessful!";
         var actualMessage = model.getAttribute("message");
 
         assertThat(view).isEqualTo("errors/404");

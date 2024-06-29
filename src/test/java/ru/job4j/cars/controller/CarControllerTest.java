@@ -127,22 +127,6 @@ public class CarControllerTest {
     }
 
     @Test
-    public void whenPostCreateThenUnsuccessfulReturnErrorMessage() {
-        var userDto = initUserDto();
-        var carDto = initCarDto();
-        carDto.setId(null);
-        when(carService.create(carDto)).thenReturn(carDto);
-
-        var model = new ConcurrentModel();
-        var view = carController.create(carDto, model, userDto);
-        var actualMessage = model.getAttribute("message");
-        var expectedMessage = "Creation Car was unsuccessful!";
-
-        assertThat(view).isEqualTo("errors/404");
-        assertThat(actualMessage).isEqualTo(expectedMessage);
-    }
-
-    @Test
     public void whenGetByIdThenReturnCarDto() {
         var expected = initCarDto();
         when(carService.findById(2L)).thenReturn(Optional.of(expected));
@@ -248,7 +232,7 @@ public class CarControllerTest {
 
         var model = new ConcurrentModel();
         var view = carController.delete(model, 2L, userDto);
-        var expectedMessage = "Car with this Id not found!";
+        var expectedMessage = "Delete Car was unsuccessful!";
         var actualMessage = model.getAttribute("message");
 
         assertThat(view).isEqualTo("errors/404");

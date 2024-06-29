@@ -16,10 +16,10 @@ Viacheslav Osipov
 ### Technologies
 Spring Boot, Hibernate, PostgreSQL, H2, Liquibase, Lombok, Thymeleaf, Bootstrap, Lombok, Slf4j, Mapstruct, Mockito
 
-### Code coverage: 70%
+### Code coverage: 68%
 
 ### Patterns
-Model View Controller(MVC), Data Transfer Object (DTO)
+Model View Controller(MVC), Data Transfer Object (DTO), Command (CrudRepository.java)
 
 ### Environment
 Java 17, Maven 3.9.6, PostgreSql 16

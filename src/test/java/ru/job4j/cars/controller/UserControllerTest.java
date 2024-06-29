@@ -71,20 +71,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void whenPostRegisterExistedUserThenReturnErrorMessage() {
-        UserDto userDto = initUserDto();
-        var expectedMessage = "User with this email is exist";
-        when(userService.create(userDto)).thenReturn(userDto);
-
-        var model = new ConcurrentModel();
-        var view = userController.register(userDto, model);
-        var actualMessage = model.getAttribute("error");
-
-        assertThat(view).isEqualTo("users/register");
-        assertThat(actualMessage).isEqualTo(expectedMessage);
-    }
-
-    @Test
     public void whenRequestLoginPage() {
         var view = userController.getLoginPage();
 

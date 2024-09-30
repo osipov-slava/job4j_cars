@@ -15,8 +15,6 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
     <!--suppress UnresolvedMavenProperty -->
     <docker_db_url_jdbc>${env.JDBC_URL}</docker_db_url_jdbc>
     <!--suppress UnresolvedMavenProperty -->
@@ -171,24 +169,6 @@
           </annotationProcessorPaths>
         </configuration>
       </plugin>
-
-<!--      <plugin>-->
-<!--        <groupId>org.liquibase</groupId>-->
-<!--        <artifactId>liquibase-maven-plugin</artifactId>-->
-<!--        <version>4.15.0</version>-->
-<!--        <configuration>-->
-<!--          <propertyFile>${liquibase.config}</propertyFile>-->
-<!--        </configuration>-->
-<!--        <executions>-->
-<!--          <execution>-->
-<!--            <phase>process-resources</phase>-->
-<!--            <goals>-->
-<!--              <goal>clearCheckSums</goal>-->
-<!--              <goal>update</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-<!--        </executions>-->
-<!--      </plugin>-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

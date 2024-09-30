@@ -15,7 +15,7 @@ Viacheslav Osipov
 
 ### Technologies
 Spring Boot, Hibernate, PostgreSQL, H2, Liquibase, Lombok, Thymeleaf, Bootstrap, Lombok, Slf4j, Mapstruct, Mockito, 
-Docker-compose
+Docker
 
 ### Code coverage: 68%
 
@@ -26,6 +26,7 @@ Model View Controller(MVC), Data Transfer Object (DTO), Command (CrudRepository.
 Java 17, Maven 3.9.6, PostgreSql 16
 
 ### How to run
+#### On local machine:
 * Create database 'cars'
 * Add environments variables, e.g.:
   - JDBC_URL=jdbc:postgresql://localhost:5432/cars
@@ -35,6 +36,11 @@ Java 17, Maven 3.9.6, PostgreSql 16
 * Enter to 'job4j_cars\' directory
 * mvn package
 * java -jar target\job4j_cars-1.0-SNAPSHOT.jar
+#### As Docker containers:
+* Clone project
+* From 'job4j_cars\' run 'docker-compose build'
+* Next run 'docker-compose up -d'
+* Enter point: http://ip_address:8080/index
 ### There are demo data:
 * Copy image files from 'demo\images\' to 'files'.
 * Run SQL script on Database 'demo\script_demo_data.sql'

@@ -14,7 +14,8 @@ Viacheslav Osipov
 [LinkedIn](https://www.linkedin.com/in/viacheslav-osipov-67806ab3/)
 
 ### Technologies
-Spring Boot, Hibernate, PostgreSQL, H2, Liquibase, Lombok, Thymeleaf, Bootstrap, Lombok, Slf4j, Mapstruct, Mockito
+Spring Boot, Hibernate, PostgreSQL, H2, Liquibase, Lombok, Thymeleaf, Bootstrap, Lombok, Slf4j, Mapstruct, Mockito, 
+Docker-compose
 
 ### Code coverage: 68%
 
@@ -26,7 +27,11 @@ Java 17, Maven 3.9.6, PostgreSql 16
 
 ### How to run
 * Create database 'cars'
-* Check credentials: db\scripts\liquibase.properties, db\scripts\liquibase_test.properties
+* Add environments variables, e.g.:
+  - JDBC_URL=jdbc:postgresql://localhost:5432/cars
+  - JDBC_USERNAME=postgres
+  - JDBC_PASSWORD=password
+  - JDBC_DRIVER=org.postgresql.Driver
 * Enter to 'job4j_cars\' directory
 * mvn package
 * java -jar target\job4j_cars-1.0-SNAPSHOT.jar

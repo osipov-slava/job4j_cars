@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_DB=cars
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./data/cars:/var/lib/postgresql/data
+      - ./demo/:/docker-entrypoint-initdb.d
+    restart: always
+
+  cars:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JDBC_URL=jdbc:postgresql://db:5432/cars
+      - JDBC_USERNAME=postgres
+      - JDBC_PASSWORD=password
+      - JDBC_DRIVER=org.postgresql.Driver
+    container_name: cars
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
